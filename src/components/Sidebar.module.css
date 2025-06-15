@@ -1,0 +1,18 @@
+.sidebar-background {
+    background-color: var(--grey-900);
+}
+
+.sidebar-title {
+    color: var(--grey-100);
+    pointer-events: none;
+}
+
+.sidebar-menu-item {
+    color: var(--grey-300);
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-menu-item:hover {
+    color: var(--grey-100);
+}

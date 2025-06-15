@@ -3,6 +3,33 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --beige-500: #98908B;
+  --beige-100: #F8F4F0;
+
+  --grey-900: #201F24;
+  --grey-500: #696868;
+  --grey-300: #B3B3B3;
+  --grey-100: #F2F2F2;
+
+  --secondary-green: #277C78;
+  --secondary-yellow: #F2CDAC;
+  --secondary-cyan: #82C9D7;
+  --secondary-navy: #626070;
+  --secondary-red: #C94736;
+  --secondary-purple: #826CB0;
+
+  --extra-purple: #AF81BA;
+  --extra-turqoise: #597C7C;
+  --extra-brown: #93674F;
+  --extra-magenta: #934F6F;
+  --extra-blue: #3F82B2;
+  --extra-navy-grey: #97A0AC;
+  --extra-army-green: #7F9161;
+  --extra-gold: #CAB361;
+  --extra-orange: #BE6C49;
+
+  --white: #FFFFFF;
 }
 
 @theme inline {
@@ -20,7 +47,73 @@
 }
 
 body {
-  background: var(--background);
+  background: var(--beige-100);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.text-preset-1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  letter-spacing: 0px;
+}
+
+.text-preset-2 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  letter-spacing: 0px;
+}
+
+.text-preset-3 {
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0px;
+}
+
+.text-preset-4 {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  letter-spacing: 0px;
+}
+
+.text-preset-5 {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.spacing-1 {
+  gap: 2.5rem;
+}
+
+.spacing-2 {
+  gap: 2rem;
+}
+
+.spacing-3 {
+  gap: 1.5rem;
+}
+
+.spacing-4 {
+  gap: 1.25rem;
+}
+
+.spacing-5 {
+  gap: 1rem;
+}
+
+.spacing-6 {
+  gap: 0.75rem;
+}
+
+.spacing-7 {
+  gap: 0.5rem;
+}
+
+.spacing-8 {
+  gap: 0.25rem;
 }
