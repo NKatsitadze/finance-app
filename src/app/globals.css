@@ -17,6 +17,8 @@
   --secondary-cyan: #82C9D7;
   --secondary-navy: #626070;
   --secondary-red: #C94736;
+  --secondary-red-hover: hsla(7, 58%, 50%, 0.800);
+
   --secondary-purple: #826CB0;
 
   --extra-purple: #AF81BA;
@@ -116,4 +118,8 @@ body {
 
 .spacing-8 {
   gap: 0.25rem;
+}
+
+.pointer {
+  cursor: pointer;
 }

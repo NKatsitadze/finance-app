@@ -1,0 +1,40 @@
+.primary {
+    background-color: var(--grey-900);
+    color: var(--white);
+    padding: 1rem;
+    border-radius: 8px;
+}
+.primary:hover {
+    background-color: var(--grey-500);
+}
+
+.secondary {
+    background-color: var(--beige-100);
+    color: var(--grey-900);
+    padding: 1rem;
+    border-radius: 8px;
+}
+.secondary:hover {
+    background-color: var(--white);
+    outline: 1px solid var(--grey-900);
+}
+
+.tertiary {
+    background-color: transparent;
+    color: var(--grey-500);
+    display: flex;
+    align-items: center;
+}
+.tertiary:hover {
+    color: var(--grey-900);
+}
+
+.destroy {
+    background-color: var(--secondary-red);
+    color: var(--white);
+    padding: 1rem;
+    border-radius: 8px;
+}
+.destroy:hover {
+    background-color: var(--secondary-red-hover);
+}

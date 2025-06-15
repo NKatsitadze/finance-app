@@ -1,7 +1,7 @@
-import Image from "next/image";
+import Button from "@/components/DesignSystem/Button";
 
 export default function Home() {
   return (
-    <>overview</>
+    <Button type="tertiary" label="Test"/>
   );
 }
