@@ -1,0 +1,22 @@
+.input-container {
+    width: 100%;
+    max-width: 20rem;
+}
+
+.label {
+    color: var(--grey-500);
+}
+
+.input {
+    color: var(--grey-900);
+    outline: 1px solid var(--beige-500);
+    border-radius: 8px;
+}
+
+.input:hover {
+    outline: 1px solid var(--grey-500);
+}
+
+.input:focus {
+    outline: 1px solid var(--grey-900);
+}

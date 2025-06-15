@@ -1,0 +1,32 @@
+.button {
+  padding: 6px 12px;
+  outline: 1px solid var(--beige-500);
+  color: var(--grey-900);
+  background-color: var(--white);
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: var(--beige-500);
+  color: var(--white);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.active {
+  background-color: var(--grey-900) !important;
+  outline: 1px solid var(--grey-900) !important;
+  color: var(--white) !important;
+}
+
+@media only screen and (max-width: 26.625em) { /*426px - large smartphone */
+  .button {
+    padding: 4px 8px;
+  }
+}
