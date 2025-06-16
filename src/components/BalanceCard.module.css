@@ -1,0 +1,16 @@
+.label {
+    color: var(--grey-500);
+}
+
+.amount {
+    color: var(--grey-900);
+}
+
+.bg-dark {
+    background-color: var(--grey-900);
+}
+
+.white {
+    color: var(--white);
+}
+

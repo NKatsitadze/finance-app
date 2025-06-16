@@ -48,6 +48,10 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background: var(--beige-100);
   color: var(--foreground);

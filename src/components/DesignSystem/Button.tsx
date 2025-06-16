@@ -8,9 +8,10 @@ import IconCaretRight from '../IconComponents/IconCaretRight';
 type ButtonProps = {
   type?: 'primary' | 'secondary' | 'tertiary' | 'destroy';
   label: string;
+  onButtonClick?: () => void;
 };
 
-const Button: React.FC<ButtonProps> = ({ type = 'primary', label }) => {
+const Button: React.FC<ButtonProps> = ({ type = 'primary', label, onButtonClick }) => {
     const [iconColor, setIconColor] = useState('var(--grey-500)')
     const mouseEnterHandler = () => {
         if(type !== 'tertiary') return
@@ -28,6 +29,7 @@ const Button: React.FC<ButtonProps> = ({ type = 'primary', label }) => {
       onMouseLeave={mouseLeaveHandler}
       onTouchStart={mouseEnterHandler}
       onTouchEnd={mouseLeaveHandler}
+      onClick={onButtonClick}
     >
       {label}
       {type === 'tertiary' && <IconCaretRight color={iconColor}/>}

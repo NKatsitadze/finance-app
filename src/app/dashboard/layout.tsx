@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import Sidebar from '@/components/Sidebar'; // Assuming this is your panel menu component
+import Page from '@/components/Page';
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -28,9 +29,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar /> {/* Left panel */}
-      <main className="flex-1 p-4">{children}</main> {/* Right side content */}
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar />
+      <Page>{children}</Page>
     </div>
   );
 }
