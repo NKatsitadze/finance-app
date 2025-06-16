@@ -28,7 +28,19 @@ export default function Home() {
   ]
 
   const totalSaves = dataJson.pots.reduce((sum, pot) => sum + pot.total, 0);
-  const potsDetails = []
+  const potsDetails = dataJson.pots.map(pot => {
+    return { label: pot.name, amount: `$${pot.total}`, color: pot.theme, key: Math.random() }
+  }).slice(0,4)
+
+  const budgetsDetails = dataJson.budgets.map(budget => {
+    return { label: budget.category, amount: `$${budget.maximum}`, color: budget.theme, key: Math.random() }
+  }).slice(0.4)
+  const budgetsChartDetails = dataJson.budgets.map(budget => {
+    return { name: budget.category, value: budget.maximum }
+  })
+  const budgetsChartColors = dataJson.budgets.map(budget => {
+    return budget.theme
+  })
 
 
   const formatDate = (isoDate: string) => {
@@ -56,16 +68,11 @@ export default function Home() {
       <section className="grid grid-cols-[11fr_9fr] gap-6">
         <div className="flex flex-col gap-6">
           <OverviewCard
-            title="Pots"
+            title="budgets"
             buttonLabel="See All"
             onButtonClick={() => console.log('Clicked')}
             layout="grid"
-            details={[
-              { label: 'Groceries', amount: '$320', color: 'var(--secondary-green)', key:1},
-              { label: 'Rent', amount: '$1200', color: 'var(--secondary-cyan)', key:2 },
-              { label: 'Utilities', amount: '$150', color: 'var(--secondary-navy)', key:3 },
-              { label: 'Wazzap', amount: '$250', color: 'var(--secondary-yellow)', key:4 },
-            ]}
+            details={potsDetails}
           >
             <div className="flex items-center gap-4 rounded-xl p-4" style={{backgroundColor: 'var(--beige-100)'}}>
               <IconPotsBig color="var(--secondary-green)"/>
@@ -103,7 +110,6 @@ export default function Home() {
                 </Fragment>
             ))}
           </OverviewCard>
-
         </div>
 
 
@@ -113,14 +119,9 @@ export default function Home() {
             buttonLabel="See All"
             onButtonClick={() => console.log('Clicked')}
             layout="horizontal"
-            details={[
-              { label: 'Groceries', amount: '$320', color: 'var(--secondary-green)', key: 1 },
-              { label: 'Rent', amount: '$1200', color: 'var(--secondary-cyan)', key: 2 },
-              { label: 'Utilities', amount: '$150', color: 'var(--secondary-navy)', key: 3 },
-              { label: 'Other', amount: '$150', color: 'var(--secondary-yellow)', key: 4 },
-            ]}
+            details={budgetsDetails}
           >
-            <BudgetsChart />
+            <BudgetsChart data={budgetsChartDetails} colors={budgetsChartColors}/>
           </OverviewCard>
 
           <OverviewCard

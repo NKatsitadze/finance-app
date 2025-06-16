@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 type DetailItem = {
   label: string;
-  amount: string;
+  amount: string | number;
   color: string;
   key: string | number;
 };
