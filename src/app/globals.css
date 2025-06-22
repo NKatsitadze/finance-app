@@ -60,33 +60,49 @@ body {
 }
 
 .text-preset-1 {
-  font-size: 2rem;
+  font-size: 2rem; /*32px*/
   line-height: 1.2;
   letter-spacing: 0px;
 }
 
 .text-preset-2 {
-  font-size: 1.25rem;
+  font-size: 1.25rem; /*20px*/
   line-height: 1.2;
   letter-spacing: 0px;
 }
 
 .text-preset-3 {
-  font-size: 1rem;
+  font-size: 1rem; /*16px*/
   line-height: 1.5;
   letter-spacing: 0px;
 }
 
 .text-preset-4 {
-  font-size: 0.875rem;
+  font-size: 0.875rem; /*14px*/
   line-height: 1.5;
   letter-spacing: 0px;
 }
 
 .text-preset-5 {
-  font-size: 0.75rem;
+  font-size: 0.75rem; /*12px*/
   line-height: 1.5;
   letter-spacing: 0px;
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.text-grey-500 {
+  color: var(--grey-500);
+}
+
+.text-grey-900 {
+  color: var(--grey-900);
+}
+
+.text-red {
+  color: var(--secondary-red);
 }
 
 .bold {

@@ -1,32 +1,18 @@
 "use client"
 import { Fragment } from "react";
 import Header from "@/components/Header";
-import BalanceCard from "@/components/BalanceCard";
+import BalanceCard from "@/components/overviews/BalanceCard";
 import OverviewCard from "@/components/overviews/OverviewCard";
 import IconPotsBig from "@/components/IconComponents/IconPotsBig";
 import BudgetsChart from "@/components/Chart";
 import dataJson from '@/data.json'
+import { getRecurringBills } from "@/utils/getRecurringBills";
+import { formatDate } from "@/utils/formatDate";
+import { getBalanceCardDetails } from "@/utils/overview/getBalanceCardDetails";
+import { getRecurringBillsOverview } from "@/utils/overview/getRecurringBillsOverview";
 
 export default function Home() {
-  const balances = [
-    {
-      key: 'current',
-      label: 'Current Balance',
-      amount: dataJson.balance.current,
-      active: true
-    },
-        {
-      key: 'income',
-      label: 'Income',
-      amount: dataJson.balance.income,
-    },
-    {
-      key: 'expenses',
-      label: 'Expenses',
-      amount: dataJson.balance.expenses,
-    }
-  ]
-
+  const balances = getBalanceCardDetails(dataJson.balance)
   const totalSaves = dataJson.pots.reduce((sum, pot) => sum + pot.total, 0);
   const potsDetails = dataJson.pots.map(pot => {
     return { label: pot.name, amount: `$${pot.total}`, color: pot.theme, key: Math.random() }
@@ -42,19 +28,13 @@ export default function Home() {
     return budget.theme
   })
 
-
-  const formatDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const day = date.getDate();
-    const month = date.toLocaleString('default', { month: 'short' }); // 'Aug'
-    const year = date.getFullYear();
-    return `${day} ${month} ${year}`;
-  };
-
   const sortedTransactions = dataJson.transactions && dataJson.transactions.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
   const slicedSortedTransactions = sortedTransactions?.slice(0,5)
+
+  const recurringBills = getRecurringBills(dataJson.transactions)
+  const recurringBillsOverview = getRecurringBillsOverview(recurringBills)
 
   return (
     <>
@@ -68,7 +48,7 @@ export default function Home() {
       <section className="grid grid-cols-[11fr_9fr] gap-6">
         <div className="flex flex-col gap-6">
           <OverviewCard
-            title="budgets"
+            title="Pots"
             buttonLabel="See All"
             onButtonClick={() => console.log('Clicked')}
             layout="grid"
@@ -129,12 +109,7 @@ export default function Home() {
             buttonLabel="See All"
             onButtonClick={() => console.log('Clicked')}
             layout="horizontal-full"
-            details={[
-              { label: 'Groceries', amount: '$320', color: 'var(--secondary-green)', key: 1 },
-              { label: 'Rent', amount: '$1200', color: 'var(--secondary-cyan)', key: 2 },
-              { label: 'Utilities', amount: '$150', color: 'var(--secondary-navy)', key: 3 },
-              { label: 'Other', amount: '$150', color: 'var(--secondary-yellow)', key: 4 },
-            ]}
+            details={recurringBillsOverview}
           >
           </OverviewCard>
         </div>

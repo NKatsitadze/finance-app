@@ -81,7 +81,7 @@
             "avatar": "/assets/avatars/pixel-playground.jpg",
             "name": "Pixel Playground",
             "category": "Entertainment",
-            "date": "2024-08-11T18:45:38Z",
+            "date": "2025-06-11T18:45:38Z",
             "amount": -10.00,
             "recurring": true
         },
@@ -395,6 +395,197 @@
             "category": "Transportation",
             "date": "2024-07-02T19:50:05Z",
             "amount": -16.50,
+            "recurring": false
+        },
+                {
+            "avatar": "/assets/avatars/daniel-carter.jpg",
+            "name": "Daniel Carter",
+            "category": "General",
+            "date": "2024-07-19T12:45:09Z",
+            "amount": 50.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/sun-park.jpg",
+            "name": "Sun Park",
+            "category": "General",
+            "date": "2024-07-18T19:20:23Z",
+            "amount": -38.50,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/harper-edwards.jpg",
+            "name": "Harper Edwards",
+            "category": "Shopping",
+            "date": "2024-07-17T14:55:37Z",
+            "amount": -29.99,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/liam-hughes.jpg",
+            "name": "Liam Hughes",
+            "category": "Groceries",
+            "date": "2024-07-16T10:10:51Z",
+            "amount": -52.75,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/lily-ramirez.jpg",
+            "name": "Lily Ramirez",
+            "category": "General",
+            "date": "2024-07-15T16:35:04Z",
+            "amount": 75.00,
+            "recurring": false
+        },
+                {
+            "avatar": "/assets/avatars/mason-martinez.jpg",
+            "name": "Mason Martinez",
+            "category": "Lifestyle",
+            "date": "2024-07-08T15:20:41Z",
+            "amount": -65.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/sebastian-cook.jpg",
+            "name": "Sebastian Cook",
+            "category": "Transportation",
+            "date": "2024-07-07T11:45:55Z",
+            "amount": -20.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/william-harris.jpg",
+            "name": "William Harris",
+            "category": "General",
+            "date": "2024-07-06T17:10:09Z",
+            "amount": 20.00,
+            "recurring": false
+        } ,       {
+            "avatar": "/assets/avatars/sofia-peterson.jpg",
+            "name": "Sofia Peterson",
+            "category": "Transportation",
+            "date": "2024-07-09T08:55:27Z",
+            "amount": -12.50,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/mason-martinez.jpg",
+            "name": "Mason Martinez",
+            "category": "Lifestyle",
+            "date": "2024-07-08T15:20:41Z",
+            "amount": -65.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/sebastian-cook.jpg",
+            "name": "Sebastian Cook",
+            "category": "Transportation",
+            "date": "2024-07-07T11:45:55Z",
+            "amount": -20.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/william-harris.jpg",
+            "name": "William Harris",
+            "category": "General",
+            "date": "2024-07-06T17:10:09Z",
+            "amount": 20.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/elevate-education.jpg",
+            "name": "Elevate Education",
+            "category": "Education",
+            "date": "2024-07-05T11:15:22Z",
+            "amount": -50.00,
+            "recurring": true
+        },
+        {
+            "avatar": "/assets/avatars/serenity-spa-and-wellness.jpg",
+            "name": "Serenity Spa & Wellness",
+            "category": "Personal Care",
+            "date": "2024-07-03T14:00:37Z",
+            "amount": -30.00,
+            "recurring": true
+        },
+        {
+            "avatar": "/assets/avatars/spark-electric-solutions.jpg",
+            "name": "Spark Electric Solutions",
+            "category": "Bills",
+            "date": "2024-07-02T09:25:51Z",
+            "amount": -100.00,
+            "recurring": true
+        },
+        {
+            "avatar": "/assets/avatars/swift-ride-share.jpg",
+            "name": "Swift Ride Share",
+            "category": "Transportation",
+            "date": "2024-07-02T19:50:05Z",
+            "amount": -16.50,
+            "recurring": false
+        },
+                {
+            "avatar": "/assets/avatars/daniel-carter.jpg",
+            "name": "Daniel Carter",
+            "category": "General",
+            "date": "2024-07-19T12:45:09Z",
+            "amount": 50.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/sun-park.jpg",
+            "name": "Sun Park",
+            "category": "General",
+            "date": "2024-07-18T19:20:23Z",
+            "amount": -38.50,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/harper-edwards.jpg",
+            "name": "Harper Edwards",
+            "category": "Shopping",
+            "date": "2024-07-17T14:55:37Z",
+            "amount": -29.99,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/liam-hughes.jpg",
+            "name": "Liam Hughes",
+            "category": "Groceries",
+            "date": "2024-07-16T10:10:51Z",
+            "amount": -52.75,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/lily-ramirez.jpg",
+            "name": "Lily Ramirez",
+            "category": "General",
+            "date": "2024-07-15T16:35:04Z",
+            "amount": 75.00,
+            "recurring": false
+        },
+                {
+            "avatar": "/assets/avatars/mason-martinez.jpg",
+            "name": "Mason Martinez",
+            "category": "Lifestyle",
+            "date": "2024-07-08T15:20:41Z",
+            "amount": -65.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/sebastian-cook.jpg",
+            "name": "Sebastian Cook",
+            "category": "Transportation",
+            "date": "2024-07-07T11:45:55Z",
+            "amount": -20.00,
+            "recurring": false
+        },
+        {
+            "avatar": "/assets/avatars/william-harris.jpg",
+            "name": "William Harris",
+            "category": "General",
+            "date": "2024-07-06T17:10:09Z",
+            "amount": 20.00,
             "recurring": false
         }
     ],

@@ -11,6 +11,7 @@
     color: var(--grey-900);
     outline: 1px solid var(--beige-500);
     border-radius: 8px;
+    border: none;
 }
 
 .input:hover {

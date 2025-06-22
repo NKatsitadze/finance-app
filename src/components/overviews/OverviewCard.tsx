@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Button from '../DesignSystem/Button';
 
 type DetailItem = {
   label: string;
@@ -27,17 +28,15 @@ export default function OverviewCard({
   return (
     <div className="p-8 bg-white rounded-xl shadow w-full">
       {/* Title and button */}
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex justify-between items-start mb-5">
         <h2 className="text-preset-2 font-bold">{title}</h2>
         {buttonLabel && onButtonClick && (
-          <button onClick={onButtonClick} className="text-preset-4 underline">
-            {buttonLabel}
-          </button>
+          <Button type='tertiary' onButtonClick={onButtonClick} label={buttonLabel}/>
         )}
       </div>
 
       {/* Content layout */}
-      <div className={`${layout === 'grid' || layout === 'horizontal' ? 'grid grid-cols-2 gap-5' : ''}`}>
+      <div className={`${layout === 'grid' || layout === 'horizontal' ? 'grid grid-cols-2 gap-4' : ''}`}>
         <div className="flex-grow">{children}</div>
 
         {details && <div

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import styles from './Select.module.css'
+import styles from './Select.module.css';
 import IconSelected from '../IconComponents/IconSelected';
 
 type Option = {
@@ -10,17 +10,12 @@ type Option = {
 
 type SelectProps = {
   label: string;
+  labelAside?: boolean;
   options: Option[];
   onChange: (value: string) => void;
 };
 
-// const options = [
-//   { value: 'pots', label: 'Pots', icon: <IconPots color="gray" /> },
-//   { value: 'budgets', label: 'Budgets', icon: <IconBudgets color="gray" /> },
-//   { value: 'budgets2', label: 'Budgets3' },
-// ];
-
-export default function Select({ label, options, onChange }: SelectProps) {
+export default function Select({ label, labelAside, options, onChange }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -42,49 +37,61 @@ export default function Select({ label, options, onChange }: SelectProps) {
     setIsOpen(false);
   };
 
-
   return (
-    <div ref={wrapperRef} className={`${styles.wrapper} relative text-preset-4`}>
-      <span className={`${styles.label} block text-preset-5`}>{label}</span>
-      <div
-        className={`${styles['select-clean']} pointer spacing-4`}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <div className="flex items-center gap-2 select-none">
-          {selected?.icon}
-          <span>{selected?.label || 'Select an option'}</span>
-        </div>
-        <svg
-          className="w-4 h-4 transform transition-transform duration-200"
-          style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+    <div
+      ref={wrapperRef}
+      className={`${styles.wrapper} text-preset-4 ${labelAside ? 'flex items-center gap-2' : ''}`}
+    >
+      <span className={`${!labelAside ? styles.label : ''} block text-preset-5`}>{label}</span>
+      
+      {/* relative wrapper for select box and dropdown */}
+      <div className="relative">
+        <div
+          className={`${styles['select-clean']} pointer spacing-4`}
+          onClick={() => setIsOpen(!isOpen)}
         >
-          <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
-
-      {isOpen && (
-        <div className={`${styles.options} select-none absolute z-10 mt-1 bg-white border border-gray-200 rounded shadow`}>
-          {options.map((option) => (
-            <div
-              key={option.value}
-              onClick={() => handleSelect(option)}
-              className={`${styles.option} px-3 py-2 hover:bg-gray-100 flex items-center gap-2 cursor-pointer`}
-            >
-                <div className={`${styles['option-helper']} spacing-6`}>
-
-              {option.icon}
-              {option.label}
-                </div>
-              {selected?.value === option.value && (
-                <IconSelected/>
-              )}
-            </div>
-          ))}
+          <div className="flex items-center gap-2 select-none">
+            {selected?.icon}
+            <span>{selected?.label || 'Select an option'}</span>
+          </div>
+          <svg
+            className="w-4 h-4 transform transition-transform duration-200"
+            style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
-      )}
+
+        {isOpen && (
+          <div
+            className={`${styles.options} select-none absolute z-10 mt-4 bg-white border border-gray-200 rounded-xl p-3 `}
+          >
+          {options.map((option, i) => (
+            <>
+              <div
+                key={option.value}
+                onClick={() => handleSelect(option)}
+                className={`${styles.option}  flex items-center gap-2 cursor-pointer`}
+              >
+                <div className={`${styles['option-helper']} text-preset-4 spacing-6`}>
+                  {option.icon}
+                  {option.label}
+                </div>
+                {selected?.value === option.value && <IconSelected />}
+              </div>
+              
+              {i !== options.length - 1 && (
+                <div className="h-px my-3 bg-gray-200 w-full" />
+              )}
+            </>
+          ))}
+
+          </div>
+        )}
+      </div>
     </div>
   );
 }
