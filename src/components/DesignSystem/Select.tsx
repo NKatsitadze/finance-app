@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Fragment } from 'react';
 import styles from './Select.module.css';
 import IconSelected from '../IconComponents/IconSelected';
 
@@ -6,6 +6,7 @@ type Option = {
   label: string;
   value: string;
   icon?: any;
+  key: string | number;
 };
 
 type SelectProps = {
@@ -70,9 +71,8 @@ export default function Select({ label, labelAside, options, onChange }: SelectP
             className={`${styles.options} select-none absolute z-10 mt-4 bg-white border border-gray-200 rounded-xl p-3 `}
           >
           {options.map((option, i) => (
-            <>
+            <Fragment key={option.key}>
               <div
-                key={option.value}
                 onClick={() => handleSelect(option)}
                 className={`${styles.option}  flex items-center gap-2 cursor-pointer`}
               >
@@ -86,7 +86,7 @@ export default function Select({ label, labelAside, options, onChange }: SelectP
               {i !== options.length - 1 && (
                 <div className="h-px my-3 bg-gray-200 w-full" />
               )}
-            </>
+            </Fragment>
           ))}
 
           </div>

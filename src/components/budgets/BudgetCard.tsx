@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-// import IconMenu from "@/components/IconComponents/IconMenu"; // Replace with your 3-dot icon
-// import IconDot from "@/components/IconComponents/IconDot"; // Replace with status dot if needed
+import { Dropdown } from "../DesignSystem/Dropdown";
+import Button from "../DesignSystem/Button";
 
 type Transaction = {
   name: string;
@@ -10,15 +10,23 @@ type Transaction = {
   category: string;
 };
 
+type dropdownOptionsType = {
+  key: string;
+  label: string;
+  onClick: () => void;
+  color?: string;
+};
+
 type BudgetCardProps = {
   category: string;
   color: string;
   maximum: number;
   amount: number;
   transactions: Transaction[];
+  dropdownOptions: dropdownOptionsType[];
 };
 
-export default function BudgetCard({ category, color, maximum, amount, transactions }: BudgetCardProps) {
+export default function BudgetCard({ category, color, maximum, amount, transactions, dropdownOptions }: BudgetCardProps) {
   const remaining = maximum - amount;
   const progress = Math.min((amount / maximum) * 100, 100);
 
@@ -29,6 +37,10 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
       .slice(0, 3);
   }, [transactions, category]);
 
+  const onButtonClick = (e: string) => {
+    console.log(1111,e)
+  }
+
   return (
     <div className="bg-white rounded-xl p-8 flex flex-col gap-5">
       {/* Header */}
@@ -37,9 +49,7 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
           <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color }}></span>
           <span className="text-preset-2 text-grey-900 bold">{category}</span>
         </div>
-        <button>
-          {/* <IconMenu /> */}Icon menu
-        </button>
+        <Dropdown options={dropdownOptions}/>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -73,7 +83,7 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
       <div className="rounded-xl px-5 py-3 flex flex-col gap-5" style={{backgroundColor: 'var(--beige-100)'}}>
         <div className="flex justify-between items-center">
           <span className="text-preset-3 bold text-grey-900">Latest Spending</span>
-          <button className="text-preset-5 text-blue-600 font-medium">See All</button>
+          <Button type='tertiary' onButtonClick={() => onButtonClick(category)} label="See all"/>
         </div>
 
         <ul className="divide-y divide-gray-200">

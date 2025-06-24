@@ -20,10 +20,9 @@ export default function TransactionsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("latest");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const pageChangeHandler = (page: number) => {
-    setCurrentPage(page);
-  };
+  const pageChangeHandler = (page: number) => setCurrentPage(page);
 
   const categories = useMemo(() => {
     return Array.from(new Set(dataJson.transactions.map((t) => t.category)));
@@ -35,6 +34,12 @@ export default function TransactionsPage() {
     if (categoryFilter) {
       filtered = filtered.filter(
         (t) => t.category.toLowerCase() === categoryFilter.toLowerCase()
+      );
+    }
+
+    if (searchTerm) {
+      filtered = filtered.filter((t) =>
+        t.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -61,8 +66,7 @@ export default function TransactionsPage() {
     }
 
     return filtered;
-  }, [sortBy, categoryFilter]);
-
+  }, [sortBy, categoryFilter, searchTerm]);
 
   const totalTransactions = sortedAndFiltered.length;
   const totalPages = Math.ceil(totalTransactions / transactionsPerPage);
@@ -72,107 +76,109 @@ export default function TransactionsPage() {
   }, [currentPage, sortedAndFiltered]);
 
   const inputHandler = (value: string) => {
-    console.log(value)
-  }
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  const getSortingSelectOptions = () => [
+    { label: "Latest", value: "latest", key: "latest" },
+    { label: "Oldest", value: "oldest", key: "oldest" },
+    { label: "A to Z", value: "az", key: "az" },
+    { label: "Z to A", value: "za", key: "za" },
+    { label: "Highest", value: "high", key: "high" },
+    { label: "Lowest", value: "low", key: "low" },
+  ];
 
   return (
     <>
       <Header title="Transactions" />
 
-      <article className="bg-white w-full flex-1 flex flex-col rounded-xl p-8">
+      <main className="bg-white w-full flex-1 flex flex-col rounded-xl p-8">
         {/* Filter/Search/Sort Header */}
-        <div className="flex items-center justify-between">
-
-        <div className="flex-1 flex items-center">
-          <Input placeholder="Search transaction" onChange={inputHandler}/>
-        </div>
+        <section aria-labelledby="filter-section" className="flex items-center justify-between mb-6">
+          <div className="flex-1">
+            <Input
+              placeholder="Search transaction"
+              onChange={inputHandler}
+              aria-label="Search transactions"
+            />
+          </div>
 
           <div className="flex items-center justify-end gap-6 flex-1">
-
-            <div className="flex-shrink-0">
-              <Select
-                label="Sort by"
-                labelAside
-                options={[
-                  { label: "Latest", value: "latest" },
-                  { label: "Oldest", value: "oldest" },
-                  { label: "A to Z", value: "az" },
-                  { label: "Z to A", value: "za" },
-                  { label: "Highest", value: "high" },
-                  { label: "Lowest", value: "low" },
-                ]}
-                onChange={(value) => {
-                  setSortBy(value);
-                  setCurrentPage(1);
-                }}
-              />
-            </div>
-
-            <div className="flex-shrink-0">
-              <Select
-                label="Category"
-                labelAside
-                options={[
-                  { label: "All", value: "" },
-                  ...categories.map((cat) => ({
-                    label: cat,
-                    value: cat.toLowerCase(),
-                  })),
-                ]}
-                onChange={(value) => {
-                  setCategoryFilter(value);
-                  setCurrentPage(1);
-                }}
-              />
-            </div>
+            <Select
+              label="Sort by"
+              labelAside
+              options={getSortingSelectOptions()}
+              onChange={(value) => {
+                setSortBy(value);
+                setCurrentPage(1);
+              }}
+            />
+            <Select
+              label="Category"
+              labelAside
+              options={[
+                { label: "All", value: "", key: "all" },
+                ...categories.map((cat) => ({
+                  label: cat,
+                  value: cat.toLowerCase(),
+                  key: cat.toLowerCase(),
+                })),
+              ]}
+              onChange={(value) => {
+                setCategoryFilter(value);
+                setCurrentPage(1);
+              }}
+            />
           </div>
-        </div>
+        </section>
 
-        {/* Table Headings */}
-        <div
-          className="grid border-b py-6 px-4 text-preset-5"
-          style={{
-            gridTemplateColumns: "2fr 0.8fr 0.8fr 1.2fr",
-            borderColor: "var(--grey-100)",
-            color: "var(--grey-500)",
-          }}
-        >
-          <span>Recipient / Sender</span>
-          <span>Category</span>
-          <span>Date</span>
-          <span className="text-right">Amount</span>
-        </div>
-
-        {/* Table Rows */}
-        <ul className="divide-y divide-gray-100">
-          {paginatedTransactions.map(({ avatar, name, category, date, amount }, index) => (
-            <li
-              key={index}
-              className="grid items-center py-4 px-4 text-sm"
-              style={{ gridTemplateColumns: "2fr 0.8fr 0.8fr 1.2fr" }}
-            >
-              <div className="flex items-center gap-3">
-                <img className="w-[40px] h-[40px] rounded-full" src={avatar} alt="avatar" />
-                <span className="text-gray-900">{name}</span>
-              </div>
-              <span className="text-gray-700 truncate">{category}</span>
-              <span className="text-gray-500">
-                {new Date(date).toLocaleDateString("en-GB", {
-                  day: "2-digit",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </span>
-              <span
-                className={`text-right font-semibold ${
-                  amount > 0 ? "text-green-600" : "text-gray-800"
-                }`}
-              >
-                {amount >= 0 ? `+$${amount}` : `-$${Math.abs(amount)}`}
-              </span>
-            </li>
-          ))}
-        </ul>
+        {/* Transaction Table */}
+        <section aria-labelledby="transactions-section">
+          <table className="w-full text-sm">
+            <thead className="text-preset-5 border-b py-6 px-4" style={{ color: "var(--grey-500)", borderColor: "var(--grey-100)" }}>
+              <tr style={{ gridTemplateColumns: "2fr 0.8fr 0.8fr 1.2fr" }} className="grid px-4 py-2">
+                <th className="text-left">Recipient / Sender</th>
+                <th className="text-left">Category</th>
+                <th className="text-left">Date</th>
+                <th className="text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedTransactions.map(({ avatar, name, category, date, amount }, index) => (
+                <tr
+                  key={index}
+                  className="grid items-center py-4 px-4 border-b border-gray-100"
+                  style={{ gridTemplateColumns: "2fr 0.8fr 0.8fr 1.2fr" }}
+                >
+                  <td className="flex items-center gap-3">
+                    <img
+                      className="w-[40px] h-[40px] rounded-full"
+                      src={avatar}
+                      alt={`${name}'s avatar`}
+                    />
+                    <span className="text-gray-900">{name}</span>
+                  </td>
+                  <td className="text-gray-700 truncate">{category}</td>
+                  <td className="text-gray-500">
+                    {new Date(date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </td>
+                  <td
+                    className={`text-right font-semibold ${
+                      amount > 0 ? "text-green-600" : "text-gray-800"
+                    }`}
+                  >
+                    {amount >= 0 ? `+$${amount}` : `-$${Math.abs(amount)}`}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
 
         {/* Pagination */}
         <div className="mt-6 mt-auto">
@@ -182,7 +188,7 @@ export default function TransactionsPage() {
             onPageChange={pageChangeHandler}
           />
         </div>
-      </article>
+      </main>
     </>
-  )
+  );
 }

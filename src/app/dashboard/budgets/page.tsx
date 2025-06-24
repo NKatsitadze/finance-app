@@ -1,3 +1,4 @@
+"use client"
 import Header from "@/components/Header";
 import Chart from "@/components/Chart";
 import BudgetCard from "@/components/budgets/BudgetCard";
@@ -37,6 +38,31 @@ export default function Home() {
       amount: totalAmount,
     };
   });
+
+    const editHandler = (budgetName:string) => {
+      console.log('edit ',budgetName)
+    }
+
+    const deleteHandler = (budgetName:string) => {
+      console.log('delete ',budgetName)
+      
+    }
+
+    const getDropdownOptions = (budgetName:string) => {
+      return [
+                {
+                  key: Math.random().toString(),
+                  label: 'Edit Budget',
+                  onClick: () => editHandler(budgetName),
+                },
+                {
+                  key: Math.random().toString(),
+                  label: 'Delete Budget',
+                  onClick: () => deleteHandler(budgetName),
+                  color: 'var(--secondary-red)'
+                }
+              ]
+    }
 
   return (
       <>
@@ -88,6 +114,7 @@ export default function Home() {
                       maximum={item.maximum}
                       amount={item.amount}
                       transactions={dataJson.transactions}
+                      dropdownOptions={getDropdownOptions(item.label)}
                     />
                   ))}
                 </div>
