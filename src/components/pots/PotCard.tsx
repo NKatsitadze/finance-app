@@ -1,17 +1,34 @@
 "use client";
-
-// import { MoreHorizontal } from "lucide-react";
+import Button from "../DesignSystem/Button";
+import { Dropdown } from "../DesignSystem/Dropdown";
 
 type PotCardProps = {
   name: string;
   total: number;
   target: number;
   theme: string;
+  dropdownOptions: {
+    key: string;
+    label: string;
+    onClick: () => void;
+    color?: string;
+  }[]
 };
 
-export default function PotCard({ name, total, target, theme }: PotCardProps) {
+export default function PotCard({ name, total, target, theme, dropdownOptions }: PotCardProps) {
   const percentage = Math.min((total / target) * 100, 100);
-  const remaining = Math.max(target - total, 0).toFixed(2);
+
+  const seeAllHandler = () => {
+    console.log('See all Pots')
+  }
+
+  const addMoney = () => {
+    console.log('add mone')
+  } 
+
+  const withdraw = () => {
+    console.log('withdraw')
+  }
 
   return (
     <div className="bg-white rounded-xl p-6 flex flex-col gap-8 shadow-sm">
@@ -26,10 +43,8 @@ export default function PotCard({ name, total, target, theme }: PotCardProps) {
             {name}
           </span>
         </div>
-        <button className="p-1 text-grey-500 hover:text-grey-900">
-            Test button
-          {/* <MoreHorizontal size={20} /> */}
-        </button>
+        {/* <Button label="..." type="tertiary" onButtonClick={seeAllHandler}/> */}
+        <Dropdown options={dropdownOptions}/>
       </div>
 
       <div className="flex flex-col gap-4 py-1">
@@ -56,13 +71,9 @@ export default function PotCard({ name, total, target, theme }: PotCardProps) {
       </div>
 
       {/* Actions */}
-      <div className="flex gap-4">
-        <button  className="h-[53px] flex-1 py-2 rounded-lg text-white font-semibold" style={{ backgroundColor: theme }}>
-          Add Money
-        </button>
-        <button  className="h-[53px] flex-1 py-2 rounded-lg text-grey-900 font-semibold border" style={{ borderColor: theme }}>
-          Withdraw
-        </button>
+      <div className="grid grid-cols-2 gap-4">
+        <Button label="+ Add Money" type="secondary" onButtonClick={addMoney}/>
+        <Button label="Withdraw" type="secondary" onButtonClick={withdraw}/>
       </div>
     </div>
   );

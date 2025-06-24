@@ -71,6 +71,10 @@ export default function TransactionsPage() {
     return sortedAndFiltered.slice(start, start + transactionsPerPage);
   }, [currentPage, sortedAndFiltered]);
 
+  const inputHandler = (value: string) => {
+    console.log(value)
+  }
+
   return (
     <>
       <Header title="Transactions" />
@@ -79,8 +83,8 @@ export default function TransactionsPage() {
         {/* Filter/Search/Sort Header */}
         <div className="flex items-center justify-between">
 
-        <div className="flex-1">
-          <Input placeholder="Search transaction" />
+        <div className="flex-1 flex items-center">
+          <Input placeholder="Search transaction" onChange={inputHandler}/>
         </div>
 
           <div className="flex items-center justify-end gap-6 flex-1">
@@ -180,5 +184,5 @@ export default function TransactionsPage() {
         </div>
       </article>
     </>
-  );
+  )
 }

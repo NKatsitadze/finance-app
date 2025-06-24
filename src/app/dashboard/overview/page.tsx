@@ -1,5 +1,5 @@
 "use client"
-import { Fragment } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import BalanceCard from "@/components/overviews/BalanceCard";
 import OverviewCard from "@/components/overviews/OverviewCard";
@@ -7,11 +7,14 @@ import IconPotsBig from "@/components/IconComponents/IconPotsBig";
 import BudgetsChart from "@/components/Chart";
 import dataJson from '@/data.json'
 import { getRecurringBills } from "@/utils/getRecurringBills";
-import { formatDate } from "@/utils/formatDate";
 import { getBalanceCardDetails } from "@/utils/overview/getBalanceCardDetails";
 import { getRecurringBillsOverview } from "@/utils/overview/getRecurringBillsOverview";
+import { OverviewTransactions } from "@/components/overviews/OverviewTransactions";
 
 export default function Home() {
+  const router = useRouter()
+  const pathname = usePathname()
+
   const balances = getBalanceCardDetails(dataJson.balance)
   const totalSaves = dataJson.pots.reduce((sum, pot) => sum + pot.total, 0);
   const potsDetails = dataJson.pots.map(pot => {
@@ -31,10 +34,15 @@ export default function Home() {
   const sortedTransactions = dataJson.transactions && dataJson.transactions.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
-  const slicedSortedTransactions = sortedTransactions?.slice(0,5)
 
+  const slicedSortedTransactions = sortedTransactions?.slice(0,5)
   const recurringBills = getRecurringBills(dataJson.transactions)
   const recurringBillsOverview = getRecurringBillsOverview(recurringBills)
+
+  const basePath = pathname.split("/").slice(0, -1).join("/")
+  const changePage = (url:string) => {
+    router.push(`${basePath + url}`)
+  }
 
   return (
     <>
@@ -50,7 +58,7 @@ export default function Home() {
           <OverviewCard
             title="Pots"
             buttonLabel="See All"
-            onButtonClick={() => console.log('Clicked')}
+            onButtonClick={() => changePage('/pots')}
             layout="grid"
             details={potsDetails}
           >
@@ -66,38 +74,17 @@ export default function Home() {
           <OverviewCard
             title="Transactions"
             buttonLabel="See All"
-            onButtonClick={() => console.log('Clicked')}
+            onButtonClick={() => changePage('/transactions')}
           >
-            {slicedSortedTransactions &&
-              slicedSortedTransactions.map(({ avatar, name, category, date, amount, recurring }, index) => (
-                <Fragment key={index}>
-                  <div className="grid grid-cols-2 justify-between">
-                    <div className="flex items-center gap-4">
-                      <img src={avatar} alt="avatar" className="w-[40px] rounded-[50%]" />
-                      <span className="bold text-preset-4" style={{ color: 'var(--grey-900)' }}>{name}</span>
-                    </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <span className="bold" style={{ color: amount > 0 ? 'var(--secondary-green)' : 'var(--grey-900)' }}>
-                        {amount >= 0 ? `+$${amount}` : `${String(amount).slice(0, 1)}$${String(amount).slice(1)}`}
-                      </span>
-                      <span style={{ color: 'var(--grey-500)' }}>{formatDate(date)}</span>
-                    </div>
-                  </div>
-
-                  {index !== slicedSortedTransactions.length - 1 && (
-                    <div className="mt-4 mb-4" style={{ backgroundColor: 'var(--grey-100)', width: '100%', height: '1px' }}></div>
-                  )}
-                </Fragment>
-            ))}
+            <OverviewTransactions slicedSortedTransactions={slicedSortedTransactions}/>
           </OverviewCard>
         </div>
-
 
         <div className="flex flex-col gap-6">
           <OverviewCard
             title="Budgets"
             buttonLabel="See All"
-            onButtonClick={() => console.log('Clicked')}
+            onButtonClick={() => changePage('/budgets')}
             layout="horizontal"
             details={budgetsDetails}
           >
@@ -107,7 +94,7 @@ export default function Home() {
           <OverviewCard
             title="Recurring bills"
             buttonLabel="See All"
-            onButtonClick={() => console.log('Clicked')}
+            onButtonClick={() => changePage('/recurring-bills')}
             layout="horizontal-full"
             details={recurringBillsOverview}
           >
@@ -115,5 +102,5 @@ export default function Home() {
         </div>
       </section>
     </>
-);
+  )
 }

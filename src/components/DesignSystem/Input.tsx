@@ -19,7 +19,7 @@ export default function Input({ label, placeholder, value, onChange }: InputProp
   };
 
   return (
-    <div className={`${styles['input-container']} text-preset-4 flex flex-col gap-1 text-preset-4 relative`}>
+    <div className={`${styles['input-container']} text-preset-4 flex flex-col text-preset-4 relative`}>
       <label className={`${styles.label} block bold`}>{label}</label>
       <div className="relative">
         <input
@@ -27,12 +27,12 @@ export default function Input({ label, placeholder, value, onChange }: InputProp
           value={internalValue}
           onChange={handleChange}
           placeholder={placeholder}
-          className={`${styles.input} w-full border border-gray-300 rounded px-3 py-2 pr-8`}
+          className={`${styles.input} w-full border border-gray-300 rounded px-5 py-3 pr-8`}
         />
         <span className="absolute top-1/2 right-3 -translate-y-1/2 text-sm text-gray-500 select-none">
-            <IconSearch />
+          <IconSearch />
         </span>
       </div>
     </div>
-  );
+  )
 }
