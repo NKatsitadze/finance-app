@@ -43,15 +43,15 @@ export default function Select({ label, labelAside, options, onChange }: SelectP
       ref={wrapperRef}
       className={`${styles.wrapper} text-preset-4 ${labelAside ? 'flex items-center gap-2' : ''}`}
     >
-      <span className={`${!labelAside ? styles.label : ''} block text-preset-5`}>{label}</span>
+      <span className={`${!labelAside ? styles.label : ''} text-nowrap block text-preset-5`}>{label}</span>
       
       {/* relative wrapper for select box and dropdown */}
-      <div className="relative">
+      <div className="relative w-[100%]">
         <div
           className={`${styles['select-clean']} pointer spacing-4`}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <div className="flex items-center gap-2 select-none">
+          <div className="flex items-center gap-2 select-none text-nowrap">
             {selected?.icon}
             <span>{selected?.label || 'Select an option'}</span>
           </div>

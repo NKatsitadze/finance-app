@@ -67,9 +67,9 @@ export default function Home() {
   return (
       <>
           <Header title="Budgets" buttonLabel="+ Add New Budget"/>
-          <article className="w-full flex gap-6 rounded-xl p-8">
+          <article className="w-full flex gap-6 rounded-xl">
 
-            <div className="basis-[40%] h-fit bg-white rounded-xl p-8 flex flex-col gap-8">
+            <div className="basis-[40%] h-fit bg-white rounded-xl p-8 flex flex-col gap-8 sticky top-0">
               <Chart data={budgetsChartDetails} colors={budgetsChartColors} />
                 
               <div className="flex flex-col gap-6">

@@ -58,9 +58,9 @@ export default function RecurringBills() {
 
   return (
     <>
-      <Header title="Pots" buttonLabel="+ Add New Pot" />
+      <Header title="Recurring Bills"/>
 
-      <section className="grid grid-cols-1 xl:grid-cols-2 gap-6 p-8">
+      <section className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* LEFT SIDE */}
         <div className="flex flex-col gap-6">
           {/* Total Bills Card */}
