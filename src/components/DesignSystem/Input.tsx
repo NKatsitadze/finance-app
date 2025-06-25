@@ -6,10 +6,11 @@ type InputProps = {
   label?: string;
   placeholder?: string;
   value?: string;
+  fullWidth?: boolean;
   onChange?: (value: string) => void;
 };
 
-export default function Input({ label, placeholder, value, onChange }: InputProps) {
+export default function Input({ label, placeholder, value, fullWidth, onChange }: InputProps) {
   const [internalValue, setInternalValue] = useState(value || '');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,8 +20,8 @@ export default function Input({ label, placeholder, value, onChange }: InputProp
   };
 
   return (
-    <div className={`${styles['input-container']} text-preset-4 flex flex-col text-preset-4 relative`}>
-      <label className={`${styles.label} block bold`}>{label}</label>
+    <div style={{ maxWidth: fullWidth ? '100%' : '20rem' }} className={`${styles['input-container']} flex flex-col text-preset-4 relative`}>
+      <label className={`${styles.label} block text-preset-5 text-grey-500 bold`}>{label}</label>
       <div className="relative">
         <input
           type="text"

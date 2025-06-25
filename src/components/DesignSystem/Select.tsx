@@ -13,10 +13,11 @@ type SelectProps = {
   label: string;
   labelAside?: boolean;
   options: Option[];
+  fullWidth?: boolean;
   onChange: (value: string) => void;
 };
 
-export default function Select({ label, labelAside, options, onChange }: SelectProps) {
+export default function Select({ label, labelAside, options, fullWidth, onChange }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -42,8 +43,9 @@ export default function Select({ label, labelAside, options, onChange }: SelectP
     <div
       ref={wrapperRef}
       className={`${styles.wrapper} text-preset-4 ${labelAside ? 'flex items-center gap-2' : ''}`}
+      style={{ maxWidth: fullWidth ? '100%' : '20rem' }}
     >
-      <span className={`${!labelAside ? styles.label : ''} text-nowrap block text-preset-5`}>{label}</span>
+      <span className={`${!labelAside ? styles.label : ''} text-nowrap block text-preset-5 text-grey-500 bold`}>{label}</span>
       
       {/* relative wrapper for select box and dropdown */}
       <div className="relative w-[100%]">
@@ -68,13 +70,13 @@ export default function Select({ label, labelAside, options, onChange }: SelectP
 
         {isOpen && (
           <div
-            className={`${styles.options} select-none absolute z-10 mt-4 bg-white border border-gray-200 rounded-xl p-3 `}
+            className={`${styles.options} max-h-[300px] overflow-y-auto select-none absolute z-10 mt-4 bg-white border border-gray-200 rounded-xl p-3 `}
           >
           {options.map((option, i) => (
             <Fragment key={option.key}>
               <div
                 onClick={() => handleSelect(option)}
-                className={`${styles.option}  flex items-center gap-2 cursor-pointer`}
+                className={`${styles.option} flex items-center gap-2 cursor-pointer`}
               >
                 <div className={`${styles['option-helper']} text-preset-4 spacing-6`}>
                   {option.icon}

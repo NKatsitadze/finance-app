@@ -1,11 +1,20 @@
 "use client"
+import { useState } from "react";
 import Header from "@/components/Header";
 import Chart from "@/components/Chart";
 import BudgetCard from "@/components/budgets/BudgetCard";
 import dataJson from '@/data.json'
-
+import Modal from "@/components/DesignSystem/Modal";
+import AddBudgetForm  from "@/components/budgets/AddBudgetForm";
+import EditBudgetForm  from "@/components/budgets/EditBudgetForm";
 
 export default function Home() {
+  const [requiredAction, setRequiredAction] = useState('')
+  const actionKeys = {
+    addBudget: 'add-budget',
+    editBudget: 'edit-budget',
+    deleteBudget: 'delete-budget'
+  }
 
   const budgetsChartDetails = dataJson.budgets.map(budget => {
     return { name: budget.category, value: budget.maximum }
@@ -40,12 +49,12 @@ export default function Home() {
   });
 
     const editHandler = (budgetName:string) => {
+      setRequiredAction(actionKeys.editBudget)
       console.log('edit ',budgetName)
     }
 
     const deleteHandler = (budgetName:string) => {
-      console.log('delete ',budgetName)
-      
+      setRequiredAction(actionKeys.deleteBudget)      
     }
 
     const getDropdownOptions = (budgetName:string) => {
@@ -64,9 +73,19 @@ export default function Home() {
               ]
     }
 
+
   return (
-      <>
-          <Header title="Budgets" buttonLabel="+ Add New Budget"/>
+      <>  
+          {requiredAction && 
+          <Modal 
+          title={`${requiredAction === 'add-budget' ? 'Add New Budget' : 'Edit Budget'}`}
+          onClose={() => setRequiredAction('')}
+          >
+            {requiredAction === 'add-budget' && <AddBudgetForm onSubmit={() => setRequiredAction('')}/>}
+            {requiredAction === 'edit-budget' && <EditBudgetForm onSubmit={() => setRequiredAction('')}/>}
+          </Modal>}
+
+          <Header title="Budgets" buttonLabel="+ Add New Budget" onButtonClick={() => setRequiredAction(actionKeys.addBudget)}/>
           <article className="w-full flex gap-6 rounded-xl">
 
             <div className="basis-[40%] h-fit bg-white rounded-xl p-8 flex flex-col gap-8 sticky top-0">

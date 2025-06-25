@@ -18,16 +18,12 @@ type PotCardProps = {
 export default function PotCard({ name, total, target, theme, dropdownOptions }: PotCardProps) {
   const percentage = Math.min((total / target) * 100, 100);
 
-  const seeAllHandler = () => {
-    console.log('See all Pots')
-  }
-
   const addMoney = () => {
-    console.log('add mone')
+    console.log('add mone', name)
   } 
 
   const withdraw = () => {
-    console.log('withdraw')
+    console.log('withdraw', name)
   }
 
   return (

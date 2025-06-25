@@ -69,12 +69,12 @@ export default function RecurringBillsRight() {
           label="Sort by"
           labelAside
           options={[
-            { label: "Latest", value: "latest" },
-            { label: "Oldest", value: "oldest" },
-            { label: "A to Z", value: "az" },
-            { label: "Z to A", value: "za" },
-            { label: "Highest", value: "highest" },
-            { label: "Lowest", value: "lowest" },
+            { label: "Latest", value: "latest", key: Math.random() },
+            { label: "Oldest", value: "oldest", key: Math.random() },
+            { label: "A to Z", value: "az", key: Math.random() },
+            { label: "Z to A", value: "za", key: Math.random() },
+            { label: "Highest", value: "highest", key: Math.random() },
+            { label: "Lowest", value: "lowest", key: Math.random() },
           ]}
           onChange={setSortBy}
         />
