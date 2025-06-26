@@ -8,36 +8,36 @@ import { getCategoryOptions, getThemeOptions } from "@/utils/budgets/getEditForm
 
 type formProps = {
     onSubmit: () => void;
+    targetBudget: string;
 }
 
-export default function addBudgetForm ({ onSubmit }:formProps) {
-    const [category, setSelectedCategory] = useState('General')
-    const [maximum, setMaximum] = useState('')
-    const [theme, setTheme] = useState('#277C78')
+export default function EditBudgetForm ({ onSubmit, targetBudget }:formProps) {
+    const targetedBudgetObj = dataJson.budgets.find(b => b.category === targetBudget)
+    const [selectedCategory, setSelectedCategory] = useState(targetedBudgetObj?.category)
+    const [theme, setTheme] = useState(targetedBudgetObj?.theme)
+    const [maximum, setMaximum] = useState(targetedBudgetObj?.maximum)
 
     const categoryOptions = getCategoryOptions(dataJson.budgets)
     const themeOptions = getThemeOptions(dataJson.budgets)
 
     const selectCategory = (category:string) => setSelectedCategory(category)
-    const inputHandler = (value:string) => setMaximum(value)
+    const inputHandler = (value:string) => setMaximum(Number(value))
     const selectTheme = (theme:string) => setTheme(theme)
 
-    const addBudget = () => {
-        dataJson.budgets.push({
-            category,
-            theme,
-            maximum: Number(maximum)
-        })
+    const saveChanges = () => {
+        const target = dataJson.budgets.find(b => b.category === selectedCategory)
+        if(target && maximum) target.maximum = Number(maximum)
+        if(target && theme) target.theme = theme
         onSubmit()
     }
 
     return (
         <>
         <p className="text-preset-4 text-grey-500">As your budgets change, feel free to update your spending limits.</p>
-        <Select label="Budget Category" options={categoryOptions} onChange={selectCategory} fullWidth/>
-        <Input label="Maximum Spend" placeholder="e.g. 2000" fullWidth onChange={inputHandler}/>
+        <Select label="Budget Category" selectedValue={targetBudget} options={categoryOptions} onChange={selectCategory} fullWidth/>
+        <Input label="Maximum Spend" value={maximum?.toString()} placeholder="e.g. 2000" fullWidth onChange={inputHandler}/>
         <Select label="Theme" fullWidth options={themeOptions} onChange={selectTheme}/>
-        <Button label="Save Changes" onButtonClick={addBudget}/>
+        <Button label="Save Changes" onButtonClick={saveChanges}/>
         </>
     )
 }

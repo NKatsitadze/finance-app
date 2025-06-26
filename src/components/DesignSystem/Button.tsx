@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({ type = 'primary', label, onButtonClick 
 
   return (
     <button
-      className={`${styles[type]} text-preset-4 pointer ${type === 'tertiary' ? 'spacing-6' : 'bold'}`}
+      className={`${styles[type]} text-preset-4 pointer ${type === 'tertiary' ? 'spacing-6 justify-center items-center' : 'bold'}`}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
       onTouchStart={mouseEnterHandler}

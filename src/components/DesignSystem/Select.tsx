@@ -14,23 +14,20 @@ type SelectProps = {
   labelAside?: boolean;
   options: Option[];
   fullWidth?: boolean;
+  selectedValue?: string;
   onChange: (value: string) => void;
 };
 
-export default function Select({ label, labelAside, options, fullWidth, onChange }: SelectProps) {
+export default function Select({ label, labelAside, options, fullWidth, selectedValue, onChange }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    if (selectedValue) {
+      const matched = options.find((opt) => opt.value === selectedValue);
+      if (matched) setSelected(matched);
+    }
   }, []);
 
   const handleSelect = (option: Option) => {
@@ -55,7 +52,7 @@ export default function Select({ label, labelAside, options, fullWidth, onChange
         >
           <div className="flex items-center gap-2 select-none text-nowrap">
             {selected?.icon}
-            <span>{selected?.label || 'Select an option'}</span>
+            <span className={`${selected ? 'text-grey-900' : ''}`}>{selected?.label || 'Select an option'}</span>
           </div>
           <svg
             className="w-4 h-4 transform transition-transform duration-200"

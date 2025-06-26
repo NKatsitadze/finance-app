@@ -7,6 +7,7 @@ import dataJson from '@/data.json'
 import Modal from "@/components/DesignSystem/Modal";
 import AddBudgetForm  from "@/components/budgets/AddBudgetForm";
 import EditBudgetForm  from "@/components/budgets/EditBudgetForm";
+import DeleteDialog from "@/components/DesignSystem/DeleteDialog";
 
 export default function Home() {
   const [requiredAction, setRequiredAction] = useState('')
@@ -48,13 +49,23 @@ export default function Home() {
     };
   });
 
+    const [targetedBudget, setTargetedBudget] = useState('')
     const editHandler = (budgetName:string) => {
+      setTargetedBudget(budgetName)
       setRequiredAction(actionKeys.editBudget)
-      console.log('edit ',budgetName)
+    }
+
+    const closeModal = () => setRequiredAction('')
+
+    const popDeleteDialog = (budgetName:string) => {
+      setTargetedBudget(budgetName)
+      setRequiredAction(actionKeys.deleteBudget)      
     }
 
     const deleteHandler = (budgetName:string) => {
-      setRequiredAction(actionKeys.deleteBudget)      
+      const targetIndex = dataJson.budgets.findIndex(b => b.category === budgetName)
+      dataJson.budgets.splice(targetIndex,1)
+      closeModal()
     }
 
     const getDropdownOptions = (budgetName:string) => {
@@ -67,7 +78,7 @@ export default function Home() {
                 {
                   key: Math.random().toString(),
                   label: 'Delete Budget',
-                  onClick: () => deleteHandler(budgetName),
+                  onClick: () => popDeleteDialog(budgetName),
                   color: 'var(--secondary-red)'
                 }
               ]
@@ -79,10 +90,11 @@ export default function Home() {
           {requiredAction && 
           <Modal 
           title={`${requiredAction === 'add-budget' ? 'Add New Budget' : 'Edit Budget'}`}
-          onClose={() => setRequiredAction('')}
+          onClose={() => closeModal()}
           >
-            {requiredAction === 'add-budget' && <AddBudgetForm onSubmit={() => setRequiredAction('')}/>}
-            {requiredAction === 'edit-budget' && <EditBudgetForm onSubmit={() => setRequiredAction('')}/>}
+            {requiredAction === 'add-budget' && <AddBudgetForm onSubmit={() => closeModal()}/>}
+            {requiredAction === 'edit-budget' && <EditBudgetForm targetBudget={targetedBudget} onSubmit={() => closeModal()}/>}
+            {requiredAction === 'delete-budget' && <DeleteDialog title={targetedBudget} closeHandler={() => closeModal()} deleteHandler={deleteHandler}/>}
           </Modal>}
 
           <Header title="Budgets" buttonLabel="+ Add New Budget" onButtonClick={() => setRequiredAction(actionKeys.addBudget)}/>
