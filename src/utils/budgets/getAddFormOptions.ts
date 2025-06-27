@@ -2,14 +2,17 @@ const generateRandomKey = () => {
     return Math.random().toString()
 }
 
-type budgetsType =  {
-    category: string;
-    maximum: number;
+type arrayType =  {
+    name?: string;
+    target?: number;
+    total?: number;
+    category?: string;
+    maximum?: number;
     theme: string;
 }[]
 
-export function getCategoryOptions(budgets: budgetsType) {
-  const usedCategories = new Set(budgets.map((b) => b.category))
+export function getCategoryOptions(arr: arrayType) {
+  const usedCategories = new Set(arr.map((b) => b.category))
   const categoryOptions = [
     'General', 'Dining Out', 'Groceries', 'Entertainment', 'Transportation',
     'Lifestyle', 'Personal Care', 'Education', 'Bills', 'Shopping',
@@ -24,7 +27,7 @@ export function getCategoryOptions(budgets: budgetsType) {
     }))
 }
 
-export function getThemeOptions(budgets: budgetsType) {
+export function getThemeOptions(arr: arrayType, all:string) {
   const themes: { label: string; value: string }[] = [
     { label: 'Green', value: '#277C78' }, { label: 'Yellow', value: '#F2CDAC' },
     { label: 'Cyan', value: '#82C9D7' }, { label: 'Navy', value: '#626070' },
@@ -35,7 +38,11 @@ export function getThemeOptions(budgets: budgetsType) {
     { label: 'Gold', value: '#CAB361' }, { label: 'Orange Grey', value: '#BE6C49' },
   ]
 
-  const usedThemes = new Set(budgets.map((b) => b.theme))
+  if(all) return themes.map(t => ({
+    ...t, key:generateRandomKey()
+  }))
+
+  const usedThemes = new Set(arr.map((b) => b.theme))
 
   return themes
     .filter((theme) => !usedThemes.has(theme.value))

@@ -38,7 +38,6 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
   }, [transactions, category]);
 
   const onButtonClick = (e: string) => {
-    console.log(1111,e)
   }
 
   return (

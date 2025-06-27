@@ -27,6 +27,8 @@ export default function Select({ label, labelAside, options, fullWidth, selected
     if (selectedValue) {
       const matched = options.find((opt) => opt.value === selectedValue);
       if (matched) setSelected(matched);
+    } else {
+      setSelected(null);
     }
   }, []);
 
@@ -35,6 +37,20 @@ export default function Select({ label, labelAside, options, fullWidth, selected
     onChange(option.value);
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
 
   return (
     <div

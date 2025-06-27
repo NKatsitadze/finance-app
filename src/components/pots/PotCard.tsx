@@ -12,19 +12,13 @@ type PotCardProps = {
     label: string;
     onClick: () => void;
     color?: string;
-  }[]
+  }[];
+  addMoney: (potName:string) => void;
+  withdrawMoney: (potName:string) => void;
 };
 
-export default function PotCard({ name, total, target, theme, dropdownOptions }: PotCardProps) {
+export default function PotCard({ name, total, target, theme, dropdownOptions, addMoney, withdrawMoney }: PotCardProps) {
   const percentage = Math.min((total / target) * 100, 100);
-
-  const addMoney = () => {
-    console.log('add mone', name)
-  } 
-
-  const withdraw = () => {
-    console.log('withdraw', name)
-  }
 
   return (
     <div className="bg-white rounded-xl p-6 flex flex-col gap-8 shadow-sm">
@@ -68,8 +62,8 @@ export default function PotCard({ name, total, target, theme, dropdownOptions }:
 
       {/* Actions */}
       <div className="grid grid-cols-2 gap-4">
-        <Button label="+ Add Money" type="secondary" onButtonClick={addMoney}/>
-        <Button label="Withdraw" type="secondary" onButtonClick={withdraw}/>
+        <Button label="+ Add Money" type="secondary" onButtonClick={() => addMoney(name)}/>
+        <Button label="Withdraw" type="secondary" onButtonClick={() => withdrawMoney(name)}/>
       </div>
     </div>
   );
