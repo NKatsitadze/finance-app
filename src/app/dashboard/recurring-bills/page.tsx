@@ -1,12 +1,35 @@
 "use client";
 
+import { useEffect, useState, useMemo } from "react";
 import Header from "@/components/Header";
-import dataJson from "@/data.json";
 import IconBills from "@/components/IconComponents/IconBills";
 import RecurringBillsTable from "@/components/recurring-bills/billsTable";
+import { fetchUserSubcollection } from "@/lib/firestore";
+import { auth } from "@/lib/firebase";
+
+type Transaction = {
+  avatar: string;
+  name: string;
+  category: string;
+  date: string;
+  amount: number;
+  recurring: boolean;
+};
 
 export default function RecurringBills() {
-  const transactions = dataJson.transactions.filter((tx) => tx.recurring);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    async function loadData() {
+      const data = await fetchUserSubcollection(user!.uid, "transactions");
+      setTransactions(data as Transaction[]);
+    }
+
+    loadData();
+  }, []);
 
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -14,43 +37,45 @@ export default function RecurringBills() {
   const fiveDaysLater = new Date(now);
   fiveDaysLater.setDate(now.getDate() + 5);
 
-  const paidBills = transactions.filter((tx) => {
+  const recurringTransactions = useMemo(
+    () => transactions.filter((tx) => tx.recurring),
+    [transactions]
+  );
+
+  const paidBills = recurringTransactions.filter((tx) => {
     const date = new Date(tx.date);
     return date >= startOfMonth && date <= now;
   });
-  const paidCount = paidBills.length;
   const paidSum = Math.abs(paidBills.reduce((acc, curr) => acc + curr.amount, 0));
 
-  const upcomingBills = transactions.filter((tx) => {
+  const upcomingBills = recurringTransactions.filter((tx) => {
     const date = new Date(tx.date);
     return date > now && date <= endOfMonth;
   });
-  const upcomingCount = upcomingBills.length;
   const upcomingSum = upcomingBills.reduce((acc, curr) => acc + curr.amount, 0);
 
   const dueSoonBills = upcomingBills.filter((tx) => {
     const date = new Date(tx.date);
     return date <= fiveDaysLater;
   });
-  const dueSoonCount = dueSoonBills.length;
   const dueSoonSum = dueSoonBills.reduce((acc, curr) => acc + curr.amount, 0);
 
   const summaryCardDetails = [
     {
       label: "Paid Bills",
-      count: paidCount,
+      count: paidBills.length,
       sum: paidSum,
       color: "text-grey-900",
     },
     {
       label: "Total Upcoming",
-      count: upcomingCount,
+      count: upcomingBills.length,
       sum: upcomingSum,
       color: "text-grey-900",
     },
     {
       label: "Due Soon",
-      count: dueSoonCount,
+      count: dueSoonBills.length,
       sum: dueSoonSum,
       color: "text-red",
     },
@@ -58,7 +83,7 @@ export default function RecurringBills() {
 
   return (
     <>
-      <Header title="Recurring Bills"/>
+      <Header title="Recurring Bills" />
 
       <section className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* LEFT SIDE */}
@@ -100,7 +125,7 @@ export default function RecurringBills() {
 
         {/* RIGHT SIDE */}
         <div className="flex flex-col gap-4">
-          <RecurringBillsTable />
+          <RecurringBillsTable transactions={recurringTransactions} />
         </div>
       </section>
     </>

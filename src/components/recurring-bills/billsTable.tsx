@@ -3,9 +3,21 @@
 import { useState, useMemo } from "react";
 import Input from "@/components/DesignSystem/Input";
 import Select from "@/components/DesignSystem/Select";
-import dataJson from "@/data.json";
 
-export default function RecurringBillsRight() {
+type Transaction = {
+  avatar: string;
+  name: string;
+  category: string;
+  date: string;
+  amount: number
+  recurring: boolean
+}
+
+type Props = {
+  transactions: Transaction[];
+};
+
+export default function RecurringBillsRight({ transactions }: Props) {
   const now = new Date();
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
   const fiveDaysLater = new Date(now);
@@ -15,7 +27,7 @@ export default function RecurringBillsRight() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const recurringTransactions = useMemo(() => {
-    let filtered = dataJson.transactions.filter((tx) => tx.recurring);
+    let filtered = [...transactions];
 
     // Filter by input
     if (searchQuery.trim()) {
@@ -47,7 +59,7 @@ export default function RecurringBillsRight() {
     }
 
     return filtered.slice(0, 8);
-  }, [sortBy, searchQuery]);
+  }, [transactions, sortBy, searchQuery]);
 
   const getDateColor = (dateStr: string) => {
     const date = new Date(dateStr);
