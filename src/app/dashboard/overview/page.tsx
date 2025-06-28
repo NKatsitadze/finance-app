@@ -1,11 +1,11 @@
 "use client"
-import { usePathname, useRouter } from "next/navigation";
+import { useDashboardData } from '@/contexts/DashboardContext'
+import { useRouter, usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import BalanceCard from "@/components/overviews/BalanceCard";
 import OverviewCard from "@/components/overviews/OverviewCard";
 import IconPotsBig from "@/components/IconComponents/IconPotsBig";
 import BudgetsChart from "@/components/Chart";
-import dataJson from '@/data.json'
 import { getRecurringBills } from "@/utils/getRecurringBills";
 import { getBalanceCardDetails } from "@/utils/overview/getBalanceCardDetails";
 import { getRecurringBillsOverview } from "@/utils/overview/getRecurringBillsOverview";
@@ -15,36 +15,40 @@ export default function Home() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const balances = getBalanceCardDetails(dataJson.balance)
-  const totalSaves = dataJson.pots.reduce((sum, pot) => sum + pot.total, 0)
+  const data = useDashboardData();
+  const { balance, transactions, budgets, pots } = data
 
-  const potsDetails = dataJson.pots.map(pot => ({
+  const balanceCards = getBalanceCardDetails(balance)
+
+  const totalSaves = pots.reduce((sum, pot) => sum + pot.total, 0)
+
+  const potsDetails = pots.map(pot => ({
     label: pot.name,
     amount: `$${pot.total}`,
     color: pot.theme,
     key: pot.name.toLowerCase()
   })).slice(0, 4)
 
-  const budgetsDetails = dataJson.budgets.map(budget => ({
+  const budgetsDetails = budgets.map(budget => ({
     label: budget.category,
     amount: `$${budget.maximum}`,
     color: budget.theme,
     key: budget.category.toLowerCase()
   })).slice(0, 4)
 
-  const budgetsChartDetails = dataJson.budgets.map(budget => ({
+  const budgetsChartDetails = budgets.map(budget => ({
     name: budget.category,
     value: budget.maximum
   }))
 
-  const budgetsChartColors = dataJson.budgets.map(budget => budget.theme)
+  const budgetsChartColors = budgets.map(budget => budget.theme)
 
-  const sortedTransactions = [...dataJson.transactions].sort(
+  const sortedTransactions = [...transactions].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
 
   const slicedSortedTransactions = sortedTransactions.slice(0, 5)
-  const recurringBills = getRecurringBills(dataJson.transactions)
+  const recurringBills = getRecurringBills(transactions)
   const recurringBillsOverview = getRecurringBillsOverview(recurringBills)
 
   const basePath = pathname.split("/").slice(0, -1).join("/")
@@ -62,7 +66,7 @@ export default function Home() {
           className="flex gap-6 shrink justify-between"
           aria-label="Balance cards section"
         >
-          {balances.map(({ key, ...rest }) => (
+          {balanceCards.map(({ key, ...rest }) => (
             <BalanceCard key={key} {...rest} />
           ))}
         </section>
@@ -133,7 +137,6 @@ export default function Home() {
               layout="horizontal-full"
               details={recurringBillsOverview}
             >
-              {/* You can add a summary or visual component here */}
             </OverviewCard>
           </div>
         </section>

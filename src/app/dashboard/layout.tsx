@@ -1,26 +1,53 @@
-// src/app/dashboard/layout.tsx
-'use client';
-import { ReactNode, useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
-import Sidebar from '@/components/Sidebar'; // Assuming this is your panel menu component
-import Page from '@/components/Page';
+"use client";
+
+import { ReactNode, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "@/lib/firebase";
+import { doc, getDoc, setDoc, collection, addDoc } from "firebase/firestore";
+import mockData from "@/data.json";
+
+import Sidebar from "@/components/Sidebar";
+import Page from "@/components/Page";
+import { DashboardProvider } from "@/contexts/DashboardContext";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
+  const { balance, transactions, budgets, pots } = mockData;
   const router = useRouter();
-  const [checkingAuth, setCheckingAuth] = useState(true);
-
   const pathname = usePathname();
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.replace('/login');
+        router.replace("/login");
       } else {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+          await setDoc(userRef, balance);
+
+          const seedCollection = async (name: string, data: any[]) => {
+            const colRef = collection(userRef, name);
+            for (const docData of data) {
+              await addDoc(colRef, docData);
+            }
+          };
+
+          await Promise.all([
+            seedCollection("transactions", transactions),
+            seedCollection("budgets", budgets),
+            seedCollection("pots", pots),
+          ]);
+        }
+
+        setUserId(user.uid);
         setCheckingAuth(false);
       }
     });
@@ -28,14 +55,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, [router]);
 
-  if (checkingAuth) {
+    if (checkingAuth || !userId) {
     return <div className="p-4">Checking authentication...</div>;
   }
 
-  return (
+return (
+  <DashboardProvider userId={userId}>
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <Page>{children}</Page>
     </div>
-  );
+  </DashboardProvider>
+);
 }

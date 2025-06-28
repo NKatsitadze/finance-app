@@ -1,32 +1,98 @@
-"use client"
-import { useState } from "react"
-import Input from "../DesignSystem/Input"
-import Button from "../DesignSystem/Button"
-import dataJson from '@/data.json'
+"use client";
+import { useState } from "react";
+import Input from "../DesignSystem/Input";
+import Button from "../DesignSystem/Button";
+import { useDashboardData } from "@/contexts/DashboardContext";
+import { db, auth } from "@/lib/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  updateDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
-type formProps = {
-    onSubmit: () => void;
-    targetPot: string;
-}
+type FormProps = {
+  onSubmit: () => void;
+  targetPot: string;
+};
 
-export default function WithdrawMoneyFromPotForm ({ onSubmit, targetPot }:formProps) {
-    const [amount, setAmount] = useState('')
-    const amountChangeHandler = (value:string) => setAmount(value)
+export default function WithdrawMoneyForm({ onSubmit, targetPot }: FormProps) {
+  const [amount, setAmount] = useState("");
+  const { refetchData } = useDashboardData();
 
-    const withdrawFromPot = () => {
-        const target = dataJson.pots.find(p => p.name === targetPot)
-        if (target) {
-            target.total = target.total - Number(amount);
-            dataJson.balance.current = dataJson.balance.current + Number(amount)
-        }
-        onSubmit()
+  const amountChangeHandler = (value: string) => setAmount(value);
+
+  const handleWithdraw = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const amountToWithdraw = Number(amount);
+    if (isNaN(amountToWithdraw) || amountToWithdraw <= 0) return;
+
+    try {
+      const potsRef = collection(db, "users", user.uid, "pots");
+      const q = query(potsRef, where("name", "==", targetPot));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        console.warn("Target pot not found.");
+        return;
+      }
+
+      const potDoc = snapshot.docs[0];
+      const potData = potDoc.data();
+
+      const newPotTotal = (potData.total ?? 0) - amountToWithdraw;
+      if (newPotTotal < 0) {
+        alert("Not enough funds in this pot.");
+        return;
+      }
+
+      // Update pot
+      await updateDoc(potDoc.ref, {
+        total: newPotTotal,
+      });
+
+      // Update balance
+      const balanceRef = doc(db, "users", user.uid);
+      const balanceSnap = await getDoc(balanceRef);
+
+      if (!balanceSnap.exists()) {
+        console.warn("User balance not found.");
+        return;
+      }
+
+      const balanceData = balanceSnap.data();
+      await setDoc(balanceRef, {
+        ...balanceData,
+        current: (balanceData.current ?? 0) + amountToWithdraw,
+      });
+
+      await refetchData();
+      onSubmit();
+    } catch (err) {
+      console.error("Failed to withdraw money:", err);
     }
+  };
 
-    return (
-        <>
-        <p className="text-preset-4 text-grey-500">Withdraw a specific amount from this pot. The amount will be withdrawn from your pot and allocated to your current balance.</p>
-        <Input label="Amount to Withdraw" placeholder="e.g. 2000" fullWidth onChange={amountChangeHandler}/>
-        <Button label="Confirm Withdrawal" onButtonClick={withdrawFromPot}/>
-        </>
-    )
+  return (
+    <>
+      <p className="text-preset-4 text-grey-500">
+        Withdraw a specific amount from this pot. The amount will be removed from your pot and added to your available balance.
+      </p>
+
+      <Input
+        label="Amount to Withdraw"
+        placeholder="e.g. 2000"
+        fullWidth
+        onChange={amountChangeHandler}
+      />
+
+      <Button label="Confirm Withdrawal" onButtonClick={handleWithdraw} />
+    </>
+  );
 }

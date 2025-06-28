@@ -27,7 +27,7 @@ export function getCategoryOptions(arr: arrayType) {
     }))
 }
 
-export function getThemeOptions(arr: arrayType, all:string) {
+export function getThemeOptions(arr: arrayType, all?:string) {
   const themes: { label: string; value: string }[] = [
     { label: 'Green', value: '#277C78' }, { label: 'Yellow', value: '#F2CDAC' },
     { label: 'Cyan', value: '#82C9D7' }, { label: 'Navy', value: '#626070' },

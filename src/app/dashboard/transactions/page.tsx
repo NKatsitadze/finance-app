@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { fetchUserSubcollection } from "@/lib/firestore";
 import Header from "@/components/Header";
 import Pagination from "@/components/DesignSystem/Pagination";
 import Input from "@/components/DesignSystem/Input";
@@ -16,6 +17,18 @@ type Transaction = {
 };
 
 export default function TransactionsPage() {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+  useEffect(() => {
+    async function getTransactions() {
+      const userId = "test-user-123abc"; // Replace this with the actual auth user's ID
+      const data = await fetchUserSubcollection(userId, "transactions");
+      setTransactions(data as Transaction[]);
+    }
+
+    getTransactions();
+  }, []);
+
   const transactionsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("latest");
@@ -25,48 +38,48 @@ export default function TransactionsPage() {
   const pageChangeHandler = (page: number) => setCurrentPage(page);
 
   const categories = useMemo(() => {
-    return Array.from(new Set(dataJson.transactions.map((t) => t.category)));
+    return Array.from(new Set(transactions.map((t) => t.category)));
   }, []);
 
-  const sortedAndFiltered = useMemo(() => {
-    let filtered: Transaction[] = [...dataJson.transactions];
+const sortedAndFiltered = useMemo(() => {
+  let filtered: Transaction[] = [...transactions];
 
-    if (categoryFilter) {
-      filtered = filtered.filter(
-        (t) => t.category.toLowerCase() === categoryFilter.toLowerCase()
-      );
-    }
+  if (categoryFilter) {
+    filtered = filtered.filter(
+      (t) => t.category.toLowerCase() === categoryFilter.toLowerCase()
+    );
+  }
 
-    if (searchTerm) {
-      filtered = filtered.filter((t) =>
-        t.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+  if (searchTerm) {
+    filtered = filtered.filter((t) =>
+      t.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
 
-    switch (sortBy) {
-      case "oldest":
-        filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-        break;
-      case "az":
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case "za":
-        filtered.sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      case "high":
-        filtered.sort((a, b) => b.amount - a.amount);
-        break;
-      case "low":
-        filtered.sort((a, b) => a.amount - b.amount);
-        break;
-      case "latest":
-      default:
-        filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        break;
-    }
+  switch (sortBy) {
+    case "oldest":
+      filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      break;
+    case "az":
+      filtered.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case "za":
+      filtered.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case "high":
+      filtered.sort((a, b) => b.amount - a.amount);
+      break;
+    case "low":
+      filtered.sort((a, b) => a.amount - b.amount);
+      break;
+    case "latest":
+    default:
+      filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      break;
+  }
 
-    return filtered;
-  }, [sortBy, categoryFilter, searchTerm]);
+  return filtered;
+}, [sortBy, categoryFilter, searchTerm, transactions])
 
   const totalTransactions = sortedAndFiltered.length;
   const totalPages = Math.ceil(totalTransactions / transactionsPerPage);

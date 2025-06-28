@@ -2,11 +2,11 @@ import { Fragment } from "react"
 import { formatDate } from "@/utils/formatDate"
 
 type transactionType = {
-    amount: number;
-    avatar: string;
-    date: string;
-    name: string;
-    recurring: boolean;
+    amount?: number;
+    avatar?: string;
+    date?: string;
+    name?: string;
+    recurring?: boolean;
 }
 
 type slicedSortedTransactionsType = {
