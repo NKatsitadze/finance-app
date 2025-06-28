@@ -1,8 +1,8 @@
     {
     "balance": {
-        "current": 4836.00,
-        "income": 3814.25,
-        "expenses": 1700.50
+        "current": 5000.00,
+        "income": 3800.25,
+        "expenses": 2406.22
     },
     "transactions": [
         {
@@ -17,7 +17,7 @@
             "avatar": "/assets/avatars/savory-bites-bistro.jpg",
             "name": "Savory Bites Bistro",
             "category": "Dining Out",
-            "date": "2024-08-19T20:23:11Z",
+            "date": "2025-06-19T20:23:11Z",
             "amount": -55.50,
             "recurring": false
         },
@@ -177,7 +177,7 @@
             "avatar": "/assets/avatars/aqua-flow-utilities.jpg",
             "name": "Aqua Flow Utilities",
             "category": "Bills",
-            "date": "2024-07-30T13:20:14Z",
+            "date": "2025-06-29T13:20:14Z",
             "amount": -100.00,
             "recurring": true
         },
@@ -233,7 +233,7 @@
             "avatar": "/assets/avatars/bytewise.jpg",
             "name": "ByteWise",
             "category": "Lifestyle",
-            "date": "2024-07-23T09:35:14Z",
+            "date": "2025-07-23T09:35:14Z",
             "amount": -49.99,
             "recurring": true
         },
@@ -257,7 +257,7 @@
             "avatar": "/assets/avatars/daniel-carter.jpg",
             "name": "Daniel Carter",
             "category": "General",
-            "date": "2024-07-19T12:45:09Z",
+            "date": "2025-07-19T12:45:09Z",
             "amount": 50.00,
             "recurring": false
         },
@@ -592,7 +592,7 @@
     "budgets": [
         {
             "category": "Entertainment",
-            "maximum": 50.00,
+            "maximum": 250.00,
             "theme": "#277C78"
         },
         {
@@ -602,12 +602,12 @@
         },
         {
             "category": "Dining Out",
-            "maximum": 75.00,
+            "maximum": 175.00,
             "theme": "#F2CDAC"
         },
         {
             "category": "Personal Care",
-            "maximum": 100.00,
+            "maximum": 300.00,
             "theme": "#626070"
         }
     ],
@@ -615,7 +615,7 @@
         {
             "name": "Savings",
             "target": 2000.00,
-            "total": 159.00,
+            "total": 150.00,
             "theme": "#277C78"
         },
         {
@@ -626,8 +626,8 @@
         },
         {
             "name": "Gift",
-            "target": 150.00,
-            "total": 110.00,
+            "target": 200.00,
+            "total": 100.00,
             "theme": "#82C9D7"
         },
         {
@@ -638,7 +638,7 @@
         },
         {
             "name": "Holiday",
-            "target": 1440.00,
+            "target": 1500.00,
             "total": 531.00,
             "theme": "#826CB0"
         }

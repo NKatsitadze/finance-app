@@ -152,7 +152,11 @@ export default function BudgetsPage() {
             <AddBudgetForm budgets={budgets} onSubmit={refetchBudgetsAndCloseModal} />
           )}
           {requiredAction === "edit-budget" && (
-            <EditBudgetForm targetBudget={targetedBudget} onSubmit={refetchBudgetsAndCloseModal} />
+            <EditBudgetForm
+              targetBudget={targetedBudget}
+              budgets={budgets}
+              onSubmit={refetchBudgetsAndCloseModal}
+            />
           )}
           {requiredAction === "delete-budget" && (
             <DeleteDialog
