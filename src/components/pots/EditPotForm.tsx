@@ -59,8 +59,8 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
     const targetPotObject = pots.find(p => p.name === potName)
     const nameIsEmpty = !potName
     const nameAlreadyUsed = pots
-      .filter(pot => pot.id !== targetPotObject?.id)
-      .some(pot => pot.name === targetPotObject?.name); 
+      .filter(pot => pot.id !== potObj.id)
+      .some(pot => pot.name.trim().toLowerCase() === potName.trim().toLowerCase());
 
     const targetIsInvalid = target.trim() === "" || isNaN(Number(target))
     const targetLessThanTotal = targetPotObject?.total && (Number(target) < targetPotObject.total)
