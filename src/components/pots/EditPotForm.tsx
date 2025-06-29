@@ -26,6 +26,10 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
   const [potName, setPotName] = useState(potObj?.name ?? "");
   const [target, setTarget] = useState(potObj?.target?.toString() ?? "");
   const [theme, setTheme] = useState(potObj?.theme ?? "#277C78");
+  const [potNameInputError, setPotNameInputError] = useState('');
+  const [potNameInputState, setPotNameInputState] = useState('initial');
+  const [potTargetInputError, setPotTargetInputError] = useState('');
+  const [potTargetInputState, setPotTargetInputState] = useState('initial');
 
   const themeOptions = getThemeOptions(pots); // updated from real pots
 
@@ -36,9 +40,44 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
     setTheme(potObj?.theme ?? "#277C78");
   }, [potObj]);
 
+  const inputPotName = (val:string) => {
+    setPotNameInputError('')
+    setPotNameInputState('initial')
+    setPotName(val)
+  }
+
+  const inputPotTarget = (val:string) => {
+    setPotTargetInputError('')
+    setPotTargetInputState('initial')
+    setTarget(val)
+  }
+
   const handleSubmit = async () => {
     const user = auth.currentUser;
     if (!user || !potObj) return;
+
+    const targetPotObject = pots.find(p => p.name === potName)
+    const nameIsEmpty = !potName
+    const nameAlreadyUsed = pots
+      .filter(pot => pot.id !== targetPotObject?.id)
+      .some(pot => pot.name === targetPotObject?.name); 
+
+    const targetIsInvalid = target.trim() === "" || isNaN(Number(target))
+    const targetLessThanTotal = targetPotObject?.total && (Number(target) < targetPotObject.total)
+
+    if(nameIsEmpty || nameAlreadyUsed || targetIsInvalid || targetLessThanTotal) {
+      if(nameIsEmpty || nameAlreadyUsed) {
+        if(nameIsEmpty) setPotNameInputError('Name is required.')
+        if(nameAlreadyUsed) setPotNameInputError('This name is already taken.')
+        setPotNameInputState('error')
+      }
+      if(targetIsInvalid || targetLessThanTotal) {
+        if(targetIsInvalid) setPotTargetInputError('Invalid amount.')
+        if(targetLessThanTotal) setPotTargetInputError('Target can not be less than saved amount.')
+        setPotTargetInputState('error')
+      }
+      return
+    }
 
     try {
       const potsRef = collection(db, "users", user.uid, "pots");
@@ -76,7 +115,9 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
         value={potName}
         placeholder="e.g. Travel Fund"
         fullWidth
-        onChange={(val) => setPotName(val)}
+        onChange={(val) => inputPotName(val)}
+        errorMessage={potNameInputError}
+        state={potNameInputState}
       />
 
       <Input
@@ -84,7 +125,9 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
         value={target}
         placeholder="e.g. 2000"
         fullWidth
-        onChange={(val) => setTarget(val)}
+        onChange={(val) => inputPotTarget(val)}
+        errorMessage={potTargetInputError}
+        state={potTargetInputState}
       />
 
       <Select

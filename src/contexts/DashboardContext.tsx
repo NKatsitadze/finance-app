@@ -25,6 +25,7 @@ type Budget = {
 };
 
 type Pot = {
+  id?: string;
   name: string;
   target: number;
   total: number;
