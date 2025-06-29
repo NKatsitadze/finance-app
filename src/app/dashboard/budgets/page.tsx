@@ -90,8 +90,12 @@ export default function BudgetsPage() {
 
   const closeModal = () => setRequiredAction("");
 
+  const [targetSpentAmount, setTargetSpentAmount] = useState(0)
   const editHandler = (budgetName: string) => {
     setTargetedBudget(budgetName);
+    const targetetBudgetObject = budgetDetails.find(b => b.label === budgetName)
+    const spentAmount = targetetBudgetObject?.amount
+    setTargetSpentAmount(spentAmount ?? 0)
     setRequiredAction("edit-budget");
   };
 
@@ -156,6 +160,7 @@ export default function BudgetsPage() {
               targetBudget={targetedBudget}
               budgets={budgets}
               onSubmit={refetchBudgetsAndCloseModal}
+              spentAmount={targetSpentAmount}
             />
           )}
           {requiredAction === "delete-budget" && (

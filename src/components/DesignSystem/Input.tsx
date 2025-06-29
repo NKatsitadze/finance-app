@@ -8,9 +8,11 @@ type InputProps = {
   value?: string;
   fullWidth?: boolean;
   onChange?: (value: string) => void;
+  errorMessage?: string;
+  state?: string;
 };
 
-export default function Input({ label, placeholder, value, fullWidth, onChange }: InputProps) {
+export default function Input({ label, placeholder, value, fullWidth, onChange, errorMessage, state='initial' }: InputProps) {
   const [internalValue, setInternalValue] = useState(value || '');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,12 +30,14 @@ export default function Input({ label, placeholder, value, fullWidth, onChange }
           value={internalValue}
           onChange={handleChange}
           placeholder={placeholder}
-          className={`${styles.input} w-full border border-gray-300 rounded px-5 py-3 pr-8`}
+          style={{ outlineColor: state === 'error' ? 'var(--secondary-red)' : 'var(--beige-500)' }}
+          className={`${styles.input} w-full border rounded px-5 py-3 pr-8`}
         />
         <span className="absolute top-1/2 right-3 -translate-y-1/2 text-sm text-gray-500 select-none">
           <IconSearch />
         </span>
       </div>
+      {errorMessage && <p className="text-red text-preset-4 mt-1">{errorMessage}</p>}
     </div>
   )
 }

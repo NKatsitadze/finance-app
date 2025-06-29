@@ -19,23 +19,41 @@ type FormProps = {
   onSubmit: () => void;
   targetBudget: string;
   budgets: Budget[];
+  spentAmount: number;
 };
 
-export default function EditBudgetForm({ onSubmit, targetBudget, budgets }: FormProps) {
+export default function EditBudgetForm({ onSubmit, targetBudget, budgets, spentAmount }: FormProps) {
   const targetedBudgetObj = budgets.find((b) => b.category === targetBudget);
-
   const [selectedCategory, setSelectedCategory] = useState(targetedBudgetObj?.category || "");
   const [theme, setTheme] = useState(targetedBudgetObj?.theme || "");
   const [maximum, setMaximum] = useState(targetedBudgetObj?.maximum?.toString() || "");
+  const [error, setError] = useState("")
+  const [maxInputState, setMaxInputState] = useState('initial')
 
   const categoryOptions = getCategoryOptions(budgets);
   const themeOptions = getThemeOptions(budgets);
 
   const selectCategory = (value: string) => setSelectedCategory(value);
-  const inputHandler = (value: string) => setMaximum(value);
+  const inputHandler = (value: string) => {
+    setMaximum(value);
+    if (Number(value) >= spentAmount) {
+      setMaxInputState('initial')
+      setError("");
+    }
+  };
   const selectTheme = (value: string) => setTheme(value);
 
   const saveChanges = async () => {
+    if (isNaN(Number(maximum)) || maximum.trim() === "") {
+      setError("Maximum limit must be a valid number");
+      setMaxInputState("error");
+      return;
+    }
+    if (Number(maximum) < spentAmount) {
+      setError(`Maximum limit cannot be less than already spent: $${spentAmount}`);
+      setMaxInputState('error')
+      return;
+    }
     const user = auth.currentUser;
     if (!user) return;
 
@@ -77,6 +95,8 @@ export default function EditBudgetForm({ onSubmit, targetBudget, budgets }: Form
         fullWidth
         value={maximum}
         onChange={inputHandler}
+        errorMessage={error}
+        state={maxInputState}
       />
       <Select
         label="Theme"
