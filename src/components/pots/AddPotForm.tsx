@@ -1,45 +1,45 @@
-"use client";
-import { useState } from "react";
-import Select from "../DesignSystem/Select";
-import Input from "../DesignSystem/Input";
-import Button from "../DesignSystem/Button";
-import { getThemeOptions } from "@/utils/budgets/getAddFormOptions";
-import { useDashboardData } from "@/contexts/DashboardContext";
-import { db, auth } from "@/lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+'use client'
+import { useState } from 'react'
+import Select from '../DesignSystem/Select'
+import Input from '../DesignSystem/Input'
+import Button from '../DesignSystem/Button'
+import { getThemeOptions } from '@/utils/budgets/getAddFormOptions'
+import { useDashboardData } from '@/contexts/DashboardContext'
+import { db, auth } from '@/lib/firebase'
+import { collection, addDoc } from 'firebase/firestore'
 
 type FormProps = {
   onSubmit: () => void;
 }
 
 export default function AddPotForm({ onSubmit }: FormProps) {
-  const [potName, setPotName] = useState("");
-  const [target, setTarget] = useState("");
-  const [theme, setTheme] = useState("");
-  const [nameInputError, setNameInputError] = useState("")
+  const [potName, setPotName] = useState('')
+  const [target, setTarget] = useState('')
+  const [theme, setTheme] = useState('')
+  const [nameInputError, setNameInputError] = useState('')
   const [nameInputState, setNameInputState] = useState('initial')
-  const [targetInputError, setTargetInputError] = useState("")
+  const [targetInputError, setTargetInputError] = useState('')
   const [targetInputState, setTargetInputState] = useState('initial')
-  const { pots, refetchData } = useDashboardData();
+  const { pots, refetchData } = useDashboardData()
 
   const themeOptions = getThemeOptions(pots)
 
   const handleSubmit = async () => {
-    const user = auth.currentUser;
-    if (!user) return;
+    const user = auth.currentUser
+    if (!user) return
 
     const emptyName = !potName
     const alreadyExists = potName === pots.find(p => p.name === potName)?.name
     const lessThanZero = Number(target) <= 0
     const notNumber = isNaN(Number(target))
     if (emptyName || alreadyExists) {
-      if(emptyName) setNameInputError("Name is required.")
-      if(alreadyExists) setNameInputError("Pot with provided name already exists.")
-      setNameInputState("error");
+      if(emptyName) setNameInputError('Name is required.')
+      if(alreadyExists) setNameInputError('Pot with provided name already exists.')
+      setNameInputState('error')
     }
     if(lessThanZero || notNumber) {
-      setTargetInputError("Invalid pot target.")
-      setTargetInputState("error");
+      setTargetInputError('Invalid pot target.')
+      setTargetInputState('error')
     }
     if(lessThanZero || emptyName || alreadyExists || notNumber) return
 
@@ -48,18 +48,18 @@ export default function AddPotForm({ onSubmit }: FormProps) {
         name: potName,
         target: Number(target),
         total: 0,
-        theme: theme || "#277C78",
-      };
+        theme: theme || '#277C78',
+      }
 
-      const potsRef = collection(db, "users", user.uid, "pots");
-      await addDoc(potsRef, newPot);
+      const potsRef = collection(db, 'users', user.uid, 'pots')
+      await addDoc(potsRef, newPot)
 
-      await refetchData();
-      onSubmit();
+      await refetchData()
+      onSubmit()
     } catch (err) {
-      console.error("Failed to add pot:", err)
+      console.error('Failed to add pot:', err)
     }
-  };
+  }
 
   const inputPotName = (val:string) => {
     setNameInputError('')
@@ -104,5 +104,5 @@ export default function AddPotForm({ onSubmit }: FormProps) {
 
       <Button label="Add Pot" onButtonClick={handleSubmit} />
     </>
-  );
+  )
 }

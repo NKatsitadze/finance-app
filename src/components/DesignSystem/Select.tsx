@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, Fragment } from 'react';
-import styles from './Select.module.css';
-import IconSelected from '../IconComponents/IconSelected';
+import { useEffect, useRef, useState, Fragment } from 'react'
+import styles from './Select.module.css'
+import IconSelected from '../IconComponents/IconSelected'
 
 type Option = {
   label: string;
@@ -19,31 +19,31 @@ type SelectProps = {
 };
 
 export default function Select({ label, labelAside, options, fullWidth, selectedValue, onChange }: SelectProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<Option | null>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const [selected, setSelected] = useState<Option | null>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (selectedValue) {
-      const matched = options.find((opt) => opt.value === selectedValue);
-      if (matched) setSelected(matched);
+      const matched = options.find((opt) => opt.value === selectedValue)
+      if (matched) setSelected(matched)
     } else {
-      setSelected(null);
+      setSelected(null)
     }
-  }, []);
+  }, [])
 
   const handleSelect = (option: Option) => {
-    setSelected(option);
-    onChange(option.value);
-    setIsOpen(false);
-  };
+    setSelected(option)
+    onChange(option.value)
+    setIsOpen(false)
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
+    }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
@@ -108,5 +108,5 @@ export default function Select({ label, labelAside, options, fullWidth, selected
         )}
       </div>
     </div>
-  );
+  )
 }

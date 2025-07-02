@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { Dropdown } from "../DesignSystem/Dropdown";
-import Button from "../DesignSystem/Button";
+import { useMemo } from 'react'
+import { Dropdown } from '../DesignSystem/Dropdown'
+import Button from '../DesignSystem/Button'
 
 type Transaction = {
   name: string;
@@ -27,15 +27,15 @@ type BudgetCardProps = {
 };
 
 export default function BudgetCard({ category, color, maximum, amount, transactions, dropdownOptions }: BudgetCardProps) {
-  const remaining = maximum - amount;
-  const progress = Math.min((amount / maximum) * 100, 100);
+  const remaining = maximum - amount
+  const progress = Math.min((amount / maximum) * 100, 100)
 
   const latestTransactions = useMemo(() => {
     return transactions
       .filter((t) => t.category === category)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 3);
-  }, [transactions, category]);
+      .slice(0, 3)
+  }, [transactions, category])
 
   const onButtonClick = (e: string) => {
   }
@@ -110,5 +110,5 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
         </ul>
       </div>
     </div>
-  );
+  )
 }

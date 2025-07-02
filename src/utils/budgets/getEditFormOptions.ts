@@ -13,7 +13,7 @@ export function getCategoryOptions(budgets: budgetsType) {
     'General', 'Dining Out', 'Groceries', 'Entertainment', 'Transportation',
     'Lifestyle', 'Personal Care', 'Education', 'Bills', 'Shopping',
   ]
-  const usedCategories = new Set(budgets.map((b) => b.category));
+  const usedCategories = new Set(budgets.map((b) => b.category))
 
   return categoryOptions
     .filter((label) => usedCategories.has(label))
@@ -21,7 +21,7 @@ export function getCategoryOptions(budgets: budgetsType) {
       label,
       value: label,
       key: generateRandomKey(),
-    }));
+    }))
 }
 
 export function getThemeOptions(budgets: budgetsType) {

@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { useState } from 'react';
+import React from 'react'
+import { useState } from 'react'
 import styles from './Button.module.css'
-import IconCaretRight from '../IconComponents/IconCaretRight';
+import IconCaretRight from '../IconComponents/IconCaretRight'
 
 type ButtonProps = {
   type?: 'primary' | 'secondary' | 'tertiary' | 'destroy';
@@ -34,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({ type = 'primary', label, onButtonClick 
       {label}
       {type === 'tertiary' && <IconCaretRight color={iconColor}/>}
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

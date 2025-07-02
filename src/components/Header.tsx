@@ -1,4 +1,4 @@
-import Button from "./DesignSystem/Button";
+import Button from './DesignSystem/Button'
 
 type HeaderProps = {
   title: string;
@@ -14,5 +14,5 @@ export default function Header({ title, buttonLabel, onButtonClick }: HeaderProp
         <Button label={buttonLabel} onButtonClick={onButtonClick}/>
       )}
     </div>
-  );
+  )
 }

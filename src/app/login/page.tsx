@@ -1,22 +1,22 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { signInWithPopup } from 'firebase/auth';
-import { auth, provider } from '@/lib/firebase';
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { signInWithPopup } from 'firebase/auth'
+import { auth, provider } from '@/lib/firebase'
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [error, setError] = useState('');
+  const router = useRouter()
+  const [error, setError] = useState('')
 
   const handleGoogleLogin = async () => {
     try {
-      await signInWithPopup(auth, provider);
-      router.replace('/dashboard/overview');
+      await signInWithPopup(auth, provider)
+      router.replace('/dashboard/overview')
     } catch (err: any) {
-      setError(err.message || 'Google sign-in failed');
+      setError(err.message || 'Google sign-in failed')
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
@@ -33,5 +33,5 @@ export default function LoginPage() {
         </button>
       </div>
     </div>
-  );
+  )
 }

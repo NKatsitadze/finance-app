@@ -1,21 +1,21 @@
-"use client"
+'use client'
 import { useDashboardData } from '@/contexts/DashboardContext'
-import { useRouter, usePathname } from "next/navigation";
-import Header from "@/components/Header";
-import BalanceCard from "@/components/overviews/BalanceCard";
-import OverviewCard from "@/components/overviews/OverviewCard";
-import IconPotsBig from "@/components/IconComponents/IconPotsBig";
-import BudgetsChart from "@/components/Chart";
-import { getRecurringBills } from "@/utils/getRecurringBills";
-import { getBalanceCardDetails } from "@/utils/overview/getBalanceCardDetails";
-import { getRecurringBillsOverview } from "@/utils/overview/getRecurringBillsOverview";
-import { OverviewTransactions } from "@/components/overviews/OverviewTransactions";
+import { useRouter, usePathname } from 'next/navigation'
+import Header from '@/components/Header'
+import BalanceCard from '@/components/overviews/BalanceCard'
+import OverviewCard from '@/components/overviews/OverviewCard'
+import IconPotsBig from '@/components/IconComponents/IconPotsBig'
+import BudgetsChart from '@/components/Chart'
+import { getRecurringBills } from '@/utils/getRecurringBills'
+import { getBalanceCardDetails } from '@/utils/overview/getBalanceCardDetails'
+import { getRecurringBillsOverview } from '@/utils/overview/getRecurringBillsOverview'
+import { OverviewTransactions } from '@/components/overviews/OverviewTransactions'
 
 export default function Home() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const data = useDashboardData();
+  const data = useDashboardData()
   const { balance, transactions, budgets, pots } = data
 
   const balanceCards = getBalanceCardDetails(balance)
@@ -51,7 +51,7 @@ export default function Home() {
   const recurringBills = getRecurringBills(transactions)
   const recurringBillsOverview = getRecurringBillsOverview(recurringBills)
 
-  const basePath = pathname.split("/").slice(0, -1).join("/")
+  const basePath = pathname.split('/').slice(0, -1).join('/')
   const changePage = (url: string) => {
     router.push(`${basePath}${url}`)
   }

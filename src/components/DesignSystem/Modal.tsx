@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { useEffect, useRef, ReactNode } from "react";
-import IconCloseModal from "../IconComponents/IconCloseModal";
-import { useState } from "react";
+import { useEffect, useRef, ReactNode } from 'react'
+import IconCloseModal from '../IconComponents/IconCloseModal'
+import { useState } from 'react'
 
 type ModalProps = {
   title: string;
@@ -11,31 +11,31 @@ type ModalProps = {
 };
 
 export default function Modal({ title, onClose, children }: ModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null)
   const [mouseOver, setMouseOver] = useState(false)
 
   // Handle outside click and Escape key
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
+        onClose()
       }
-    };
+    }
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
+      if (event.key === 'Escape') {
+        onClose()
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleEscape)
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [onClose]);
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [onClose])
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -55,5 +55,5 @@ export default function Modal({ title, onClose, children }: ModalProps) {
         {children}
       </div>
     </div>
-  );
+  )
 }

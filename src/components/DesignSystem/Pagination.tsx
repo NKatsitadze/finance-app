@@ -1,4 +1,4 @@
-import styles from './Pagination.module.css';
+import styles from './Pagination.module.css'
 
 type PaginationProps = {
   totalPages: number;
@@ -9,51 +9,51 @@ type PaginationProps = {
 export default function Pagination({ totalPages, currentPage, onPageChange }: PaginationProps) {
 
     function createPageNumbers(totalPages: number, currentPage: number): (number | 'left-ellipsis' | 'right-ellipsis')[] {
-        const pageNumbers: (number | 'left-ellipsis' | 'right-ellipsis')[] = [];
+        const pageNumbers: (number | 'left-ellipsis' | 'right-ellipsis')[] = []
 
         if (totalPages <= 7) {
             for (let i = 1; i <= totalPages; i++) {
-            pageNumbers.push(i);
+            pageNumbers.push(i)
             }
         } else {
-            pageNumbers.push(1);
+            pageNumbers.push(1)
 
             if (currentPage > 4) {
-            pageNumbers.push('left-ellipsis');
+            pageNumbers.push('left-ellipsis')
             }
 
-            const start = Math.max(2, currentPage - 1);
-            const end = Math.min(totalPages - 1, currentPage + 1);
+            const start = Math.max(2, currentPage - 1)
+            const end = Math.min(totalPages - 1, currentPage + 1)
             for (let i = start; i <= end; i++) {
-            pageNumbers.push(i);
+            pageNumbers.push(i)
             }
 
             if (currentPage < totalPages - 3) {
-            pageNumbers.push('right-ellipsis');
+            pageNumbers.push('right-ellipsis')
             }
 
-            pageNumbers.push(totalPages);
+            pageNumbers.push(totalPages)
         }
 
-        return pageNumbers;
+        return pageNumbers
     }
 
 
     const handleClick = (page: number | 'left-ellipsis' | 'right-ellipsis') => {
     if (page === 'left-ellipsis') {
-        const jump = Math.ceil(totalPages / 3);
-        onPageChange(Math.max(1, currentPage - jump));
-        return;
+        const jump = Math.ceil(totalPages / 3)
+        onPageChange(Math.max(1, currentPage - jump))
+        return
     }
 
     if (page === 'right-ellipsis') {
-        const jump = Math.ceil(totalPages / 3);
-        onPageChange(Math.min(totalPages, currentPage + jump));
-        return;
+        const jump = Math.ceil(totalPages / 3)
+        onPageChange(Math.min(totalPages, currentPage + jump))
+        return
     }
 
-    onPageChange(page);
-    };
+    onPageChange(page)
+    }
 
   return (
     <div className="flex justify-between items-center w-full text-preset-4 mt-4 gap-2 flex-wrap">
@@ -89,5 +89,5 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
         <span className="sm:hidden">{'>'}</span>
       </button>
     </div>
-  );
+  )
 }

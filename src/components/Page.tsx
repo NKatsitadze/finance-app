@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from 'react'
 
 type PageProps = {
   children: ReactNode;
@@ -11,5 +11,5 @@ export default function Page({ children }: PageProps) {
     >
       {children}
     </main>
-  );
+  )
 }

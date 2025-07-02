@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import styles from './Sidebar.module.css';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import styles from './Sidebar.module.css'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { signOut } from 'firebase/auth'
+import { auth } from '@/lib/firebase'
 
-import IconOverview from './IconComponents/IconOverview';
-import IconBudgets from './IconComponents/IconBudgets';
-import IconRecurringBills from './IconComponents/IconRecurringBills';
-import IconTransactions from './IconComponents/IconTransactions';
-import IconPots from './IconComponents/IconPots';
+import IconOverview from './IconComponents/IconOverview'
+import IconBudgets from './IconComponents/IconBudgets'
+import IconRecurringBills from './IconComponents/IconRecurringBills'
+import IconTransactions from './IconComponents/IconTransactions'
+import IconPots from './IconComponents/IconPots'
 
 const menuItems = [
   { label: 'Overview', href: '/dashboard/overview', Icon: IconOverview },
@@ -18,16 +18,16 @@ const menuItems = [
   { label: 'Budgets', href: '/dashboard/budgets', Icon: IconBudgets },
   { label: 'Pots', href: '/dashboard/pots', Icon: IconPots },
   { label: 'Recurring bills', href: '/dashboard/recurring-bills', Icon: IconRecurringBills },
-];
+]
 
 export default function Sidebar() {
-  const pathname = usePathname();
-  const router = useRouter();
+  const pathname = usePathname()
+  const router = useRouter()
 
   const handleLogout = async () => {
-    await signOut(auth);
-    router.replace('/login');
-  };
+    await signOut(auth)
+    router.replace('/login')
+  }
 
   return (
     <aside className={`${styles['sidebar-background']} w-60 bg-white shadow p-4 flex flex-col justify-between min-h-screen`}>
@@ -54,5 +54,5 @@ export default function Sidebar() {
         Logout
         </button>
     </aside>
-  );
+  )
 }

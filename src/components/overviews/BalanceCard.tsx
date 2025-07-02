@@ -12,5 +12,5 @@ export default function BalanceCard({ label, amount, active }: BalanceCardProps)
       <span className={`${active ? styles.white : styles.label} block text-preset-4"`}>{label}</span>
       <span className={`${active ? styles.white : styles.amount} block bold text-preset-1`}>${amount}</span>
     </div>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { fetchUserSubcollection, fetchUserDocument } from '@/lib/firestore';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { fetchUserSubcollection, fetchUserDocument } from '@/lib/firestore'
 
 type Balance = {
   current: number;
@@ -44,13 +44,13 @@ type DashboardContextValue = DashboardData & {
   refetchData: () => void;
 };
 
-const DashboardContext = createContext<DashboardContextValue | null>(null);
+const DashboardContext = createContext<DashboardContextValue | null>(null)
 export function useDashboardData() {
-  const context = useContext(DashboardContext);
+  const context = useContext(DashboardContext)
   if (!context) {
-    throw new Error("useDashboardData must be used within DashboardProvider");
+    throw new Error('useDashboardData must be used within DashboardProvider')
   }
-  return context;
+  return context
 }
 
 export function DashboardProvider({ userId, children }: { userId: string; children: ReactNode }) {
@@ -59,15 +59,15 @@ export function DashboardProvider({ userId, children }: { userId: string; childr
     transactions: [],
     budgets: [],
     pots: [],
-  });
+  })
 
   const fetchAllData = async () => {
     const [userDoc, transactions, budgets, pots] = await Promise.all([
       fetchUserDocument(userId),
-      fetchUserSubcollection(userId, "transactions"),
-      fetchUserSubcollection(userId, "budgets"),
-      fetchUserSubcollection(userId, "pots"),
-    ]);
+      fetchUserSubcollection(userId, 'transactions'),
+      fetchUserSubcollection(userId, 'budgets'),
+      fetchUserSubcollection(userId, 'pots'),
+    ])
 
     setData({
       balance: userDoc
@@ -80,18 +80,18 @@ export function DashboardProvider({ userId, children }: { userId: string; childr
       transactions: transactions as Transaction[],
       budgets: budgets as Budget[],
       pots: pots as Pot[],
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    if (!userId) return;
-    fetchAllData();
-  }, [userId]);
+    if (!userId) return
+    fetchAllData()
+  }, [userId])
 
   return (
     <DashboardContext.Provider value={{ ...data, refetchData: fetchAllData }}>
       {children}
     </DashboardContext.Provider>
-  );
+  )
 }
 

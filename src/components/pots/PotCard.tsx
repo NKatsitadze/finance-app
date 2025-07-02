@@ -1,6 +1,6 @@
-"use client";
-import Button from "../DesignSystem/Button";
-import { Dropdown } from "../DesignSystem/Dropdown";
+'use client'
+import Button from '../DesignSystem/Button'
+import { Dropdown } from '../DesignSystem/Dropdown'
 
 type PotCardProps = {
   name: string;
@@ -18,7 +18,7 @@ type PotCardProps = {
 };
 
 export default function PotCard({ name, total, target, theme, dropdownOptions, addMoney, withdrawMoney }: PotCardProps) {
-  const percentage = Math.min((total / target) * 100, 100);
+  const percentage = Math.min((total / target) * 100, 100)
 
   return (
     <div className="bg-white rounded-xl p-6 flex flex-col gap-8 shadow-sm">
@@ -66,5 +66,5 @@ export default function PotCard({ name, total, target, theme, dropdownOptions, a
         <Button label="Withdraw" type="secondary" onButtonClick={() => withdrawMoney(name)}/>
       </div>
     </div>
-  );
+  )
 }

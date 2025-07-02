@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import Select from "../DesignSystem/Select";
-import Input from "../DesignSystem/Input";
-import Button from "../DesignSystem/Button";
-import { getCategoryOptions, getThemeOptions } from "@/utils/budgets/getAddFormOptions";
-import { db, auth } from "@/lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { useState } from 'react'
+import Select from '../DesignSystem/Select'
+import Input from '../DesignSystem/Input'
+import Button from '../DesignSystem/Button'
+import { getCategoryOptions, getThemeOptions } from '@/utils/budgets/getAddFormOptions'
+import { db, auth } from '@/lib/firebase'
+import { collection, addDoc } from 'firebase/firestore'
 
 type Budget = {
   category: string;
@@ -20,46 +20,46 @@ type FormProps = {
 };
 
 export default function AddBudgetForm({ onSubmit, budgets }: FormProps) {
-  const [category, setSelectedCategory] = useState("General");
-  const [maximum, setMaximum] = useState("");
-  const [theme, setTheme] = useState("#277C78");
-  const [error, setError] = useState("")
+  const [category, setSelectedCategory] = useState('General')
+  const [maximum, setMaximum] = useState('')
+  const [theme, setTheme] = useState('#277C78')
+  const [error, setError] = useState('')
   const [maxInputState, setMaxInputState] = useState('initial')
 
-  const categoryOptions = getCategoryOptions(budgets);
-  const themeOptions = getThemeOptions(budgets);
+  const categoryOptions = getCategoryOptions(budgets)
+  const themeOptions = getThemeOptions(budgets)
 
-  const selectCategory = (value: string) => setSelectedCategory(value);
-  const inputHandler = (value: string) => setMaximum(value);
-  const selectTheme = (value: string) => setTheme(value);
+  const selectCategory = (value: string) => setSelectedCategory(value)
+  const inputHandler = (value: string) => setMaximum(value)
+  const selectTheme = (value: string) => setTheme(value)
 
   const addBudget = async () => {
-    const user = auth.currentUser;
-    if (!user) return;
+    const user = auth.currentUser
+    if (!user) return
 
-    if (isNaN(Number(maximum)) || maximum.trim() === "") {
-      setError("Maximum limit must be a valid number");
-      setMaxInputState("error");
-      return;
+    if (isNaN(Number(maximum)) || maximum.trim() === '') {
+      setError('Maximum limit must be a valid number')
+      setMaxInputState('error')
+      return
     }
     if (Number(maximum) <= 0) {
-      setError(`Maximum limit cannot be less than 0`);
+      setError('Maximum limit cannot be less than 0')
       setMaxInputState('error')
-      return;
+      return
     }
 
     try {
-      await addDoc(collection(db, "users", user.uid, "budgets"), {
+      await addDoc(collection(db, 'users', user.uid, 'budgets'), {
         category,
         theme,
         maximum: Number(maximum),
-      });
+      })
 
-      onSubmit();
+      onSubmit()
     } catch (error) {
-      console.error("Failed to add budget:", error);
+      console.error('Failed to add budget:', error)
     }
-  };
+  }
 
   return (
     <>
@@ -71,5 +71,5 @@ export default function AddBudgetForm({ onSubmit, budgets }: FormProps) {
       <Select label="Theme" fullWidth options={themeOptions} onChange={selectTheme} />
       <Button label="Add Budget" onButtonClick={addBudget} />
     </>
-  );
+  )
 }

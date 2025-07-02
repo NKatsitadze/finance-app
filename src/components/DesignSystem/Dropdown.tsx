@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import { useState, useRef, useEffect } from "react";
-import IconEllipsis from "../IconComponents/IconEllipsis";
+import { useState, useRef, useEffect } from 'react'
+import IconEllipsis from '../IconComponents/IconEllipsis'
 
 type DropdownOption = {
   key: string;
@@ -15,8 +15,8 @@ type DropdownProps = {
 };
 
 export function Dropdown({ options }: DropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -24,18 +24,18 @@ export function Dropdown({ options }: DropdownProps) {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        setIsOpen(false)
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleOptionClick = (onClick: () => void) => {
-    onClick();
-    setIsOpen(false);
-  };
+    onClick()
+    setIsOpen(false)
+  }
 
   return (
     <div className="relative flex items-center justify-center" ref={dropdownRef}>
@@ -52,7 +52,7 @@ export function Dropdown({ options }: DropdownProps) {
             <button
               key={key}
               onClick={() => handleOptionClick(onClick)}
-              className={`w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-preset-4 pointer`}
+              className={'w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-preset-4 pointer'}
               style={{ color: color ?? 'text-grey-900' }}
             >
               {label}

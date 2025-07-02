@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+'use client'
+import React from 'react'
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 
 type DataPoint = {
   name: string;
@@ -12,7 +12,7 @@ type ChartProps = {
   colors: string[]
 };
 
-const RADIAN = Math.PI / 180;
+const RADIAN = Math.PI / 180
 
 const renderCustomizedLabel = ({
   cx,
@@ -22,9 +22,9 @@ const renderCustomizedLabel = ({
   outerRadius,
   percent,
 }: any) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5
+  const x = cx + radius * Math.cos(-midAngle * RADIAN)
+  const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
   return (
     <text
@@ -36,8 +36,8 @@ const renderCustomizedLabel = ({
     >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
-  );
-};
+  )
+}
 
 const Chart = ({ data, colors }: ChartProps) => {
   return (
@@ -59,7 +59,7 @@ const Chart = ({ data, colors }: ChartProps) => {
         </Pie>
       </PieChart>
     </ResponsiveContainer>
-  );
-};
+  )
+}
 
-export default Chart;
+export default Chart

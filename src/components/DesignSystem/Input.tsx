@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import styles from './Input.module.css';
-import IconSearch from '../IconComponents/IconSearch';
+import { useState } from 'react'
+import styles from './Input.module.css'
+import IconSearch from '../IconComponents/IconSearch'
 
 type InputProps = {
   label?: string;
@@ -13,13 +13,13 @@ type InputProps = {
 };
 
 export default function Input({ label, placeholder, value, fullWidth, onChange, errorMessage, state='initial' }: InputProps) {
-  const [internalValue, setInternalValue] = useState(value || '');
+  const [internalValue, setInternalValue] = useState(value || '')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInternalValue(newValue);
-    onChange?.(newValue);
-  };
+    const newValue = e.target.value
+    setInternalValue(newValue)
+    onChange?.(newValue)
+  }
 
   return (
     <div style={{ maxWidth: fullWidth ? '100%' : '20rem' }} className={`${styles['input-container']} flex flex-col text-preset-4 relative`}>

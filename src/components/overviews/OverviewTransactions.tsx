@@ -1,5 +1,5 @@
-import { Fragment } from "react"
-import { formatDate } from "@/utils/formatDate"
+import { Fragment } from 'react'
+import { formatDate } from '@/utils/formatDate'
 
 type transactionType = {
     amount?: number;

@@ -1,18 +1,18 @@
-"use client"
-import { useEffect, useState } from "react";
-import Select from "../DesignSystem/Select";
-import Input from "../DesignSystem/Input";
-import Button from "../DesignSystem/Button";
-import { getThemeOptions } from "@/utils/budgets/getAddFormOptions";
-import { useDashboardData } from "@/contexts/DashboardContext";
-import { db, auth } from "@/lib/firebase";
+'use client'
+import { useEffect, useState } from 'react'
+import Select from '../DesignSystem/Select'
+import Input from '../DesignSystem/Input'
+import Button from '../DesignSystem/Button'
+import { getThemeOptions } from '@/utils/budgets/getAddFormOptions'
+import { useDashboardData } from '@/contexts/DashboardContext'
+import { db, auth } from '@/lib/firebase'
 import {
   collection,
   query,
   where,
   getDocs,
   updateDoc,
-} from "firebase/firestore";
+} from 'firebase/firestore'
 
 type FormProps = {
   onSubmit: () => void;
@@ -20,25 +20,25 @@ type FormProps = {
 };
 
 export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
-  const { pots, refetchData } = useDashboardData();
-  const potObj = pots.find((p) => p.name === targetPot);
+  const { pots, refetchData } = useDashboardData()
+  const potObj = pots.find((p) => p.name === targetPot)
 
-  const [potName, setPotName] = useState(potObj?.name ?? "");
-  const [target, setTarget] = useState(potObj?.target?.toString() ?? "");
-  const [theme, setTheme] = useState(potObj?.theme ?? "#277C78");
-  const [potNameInputError, setPotNameInputError] = useState('');
-  const [potNameInputState, setPotNameInputState] = useState('initial');
-  const [potTargetInputError, setPotTargetInputError] = useState('');
-  const [potTargetInputState, setPotTargetInputState] = useState('initial');
+  const [potName, setPotName] = useState(potObj?.name ?? '')
+  const [target, setTarget] = useState(potObj?.target?.toString() ?? '')
+  const [theme, setTheme] = useState(potObj?.theme ?? '#277C78')
+  const [potNameInputError, setPotNameInputError] = useState('')
+  const [potNameInputState, setPotNameInputState] = useState('initial')
+  const [potTargetInputError, setPotTargetInputError] = useState('')
+  const [potTargetInputState, setPotTargetInputState] = useState('initial')
 
-  const themeOptions = getThemeOptions(pots); // updated from real pots
+  const themeOptions = getThemeOptions(pots) // updated from real pots
 
   useEffect(() => {
     // In case props or context updates
-    setPotName(potObj?.name ?? "");
-    setTarget(potObj?.target?.toString() ?? "");
-    setTheme(potObj?.theme ?? "#277C78");
-  }, [potObj]);
+    setPotName(potObj?.name ?? '')
+    setTarget(potObj?.target?.toString() ?? '')
+    setTheme(potObj?.theme ?? '#277C78')
+  }, [potObj])
 
   const inputPotName = (val:string) => {
     setPotNameInputError('')
@@ -53,16 +53,16 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
   }
 
   const handleSubmit = async () => {
-    const user = auth.currentUser;
-    if (!user || !potObj) return;
+    const user = auth.currentUser
+    if (!user || !potObj) return
 
     const targetPotObject = pots.find(p => p.name === potName)
     const nameIsEmpty = !potName
     const nameAlreadyUsed = pots
       .filter(pot => pot.id !== potObj.id)
-      .some(pot => pot.name.trim().toLowerCase() === potName.trim().toLowerCase());
+      .some(pot => pot.name.trim().toLowerCase() === potName.trim().toLowerCase())
 
-    const targetIsInvalid = target.trim() === "" || isNaN(Number(target))
+    const targetIsInvalid = target.trim() === '' || isNaN(Number(target))
     const targetLessThanTotal = targetPotObject?.total && (Number(target) < targetPotObject.total)
 
     if(nameIsEmpty || nameAlreadyUsed || targetIsInvalid || targetLessThanTotal) {
@@ -80,29 +80,29 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
     }
 
     try {
-      const potsRef = collection(db, "users", user.uid, "pots");
-      const q = query(potsRef, where("name", "==", targetPot));
-      const snapshot = await getDocs(q);
+      const potsRef = collection(db, 'users', user.uid, 'pots')
+      const q = query(potsRef, where('name', '==', targetPot))
+      const snapshot = await getDocs(q)
 
       if (snapshot.empty) {
-        console.warn("Pot not found for editing.");
-        return;
+        console.warn('Pot not found for editing.')
+        return
       }
 
-      const potDocRef = snapshot.docs[0].ref;
+      const potDocRef = snapshot.docs[0].ref
 
       await updateDoc(potDocRef, {
         name: potName,
         target: Number(target),
         theme,
-      });
+      })
 
-      await refetchData(); // refresh UI
-      onSubmit();
+      await refetchData() // refresh UI
+      onSubmit()
     } catch (err) {
-      console.error("Failed to update pot:", err);
+      console.error('Failed to update pot:', err)
     }
-  };
+  }
 
   return (
     <>
@@ -140,5 +140,5 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
 
       <Button label="Save Changes" onButtonClick={handleSubmit} />
     </>
-  );
+  )
 }

@@ -11,21 +11,21 @@ export function getRecurringBillsOverview (recurringBills:recurringBillsType) {
 
     return [
         {
-            label: "Paid Bills",
+            label: 'Paid Bills',
             amount: `$${recurringBills.paidBillsSum}`,
-            color: "var(--secondary-green)",
+            color: 'var(--secondary-green)',
             key: 'paid-bills'
         },
         {
-            label: "Total Upcoming",
+            label: 'Total Upcoming',
             amount: `$${recurringBills.upcomingBillsSum}`,
-            color: "var(--secondary-yellow)",
+            color: 'var(--secondary-yellow)',
             key: 'upcoming'
         },
         {
-            label: "Due Soon",
+            label: 'Due Soon',
             amount: `$${recurringBills.dueSoonBillsSum}`,
-            color: "var(--secondary-cyan)",
+            color: 'var(--secondary-cyan)',
             key: 'due'
         },
     ]
