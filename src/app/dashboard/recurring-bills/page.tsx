@@ -85,9 +85,9 @@ export default function RecurringBills() {
     <>
       <Header title="Recurring Bills" />
 
-      <section className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <section className="flex gap-6">
         {/* LEFT SIDE */}
-        <div className="flex flex-col gap-6">
+        <div className="basis-[40%] flex flex-col gap-6">
           {/* Total Bills Card */}
           <div
             className="bg-white rounded-xl p-6 shadow-sm flex flex-col gap-8"
@@ -124,7 +124,7 @@ export default function RecurringBills() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col gap-4">
+        <div className="basis-[60%] flex flex-col gap-4">
           <RecurringBillsTable transactions={recurringTransactions} />
         </div>
       </section>

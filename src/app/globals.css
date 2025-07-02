@@ -93,6 +93,10 @@ body {
   color: var(--white);
 }
 
+.text-grey-300 {
+  color: var(--grey-300);
+}
+
 .text-grey-500 {
   color: var(--grey-500);
 }

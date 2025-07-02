@@ -44,8 +44,8 @@ export default function OverviewCard({
             layout === 'grid' ? 'grid grid-cols-2 gap-4' : 'flex flex-col gap-4'
           }`}
         >
-          {details.map((item) => (
-            <div key={item.key} className={`flex flex-col relative pl-4 rounded-xl ${layout === 'horizontal-full' ? 'border-l-4 pr-4 pt-5 pb-5 flex flex-row justify-between' : ''}`} style={{backgroundColor: layout === 'horizontal-full' ? 'var(--beige-100)' : undefined, borderColor: layout === 'horizontal-full' ? item.color : ''}}>
+          {details.map((item,i) => (
+            <div key={i} className={`flex flex-col relative pl-4 rounded-xl ${layout === 'horizontal-full' ? 'border-l-4 pr-4 pt-5 pb-5 flex flex-row justify-between' : ''}`} style={{backgroundColor: layout === 'horizontal-full' ? 'var(--beige-100)' : undefined, borderColor: layout === 'horizontal-full' ? item.color : ''}}>
               <span className={`absolute w-[4px] rounded-xl h-full top-0 left-0 ${layout === 'horizontal-full' ? 'hidden' : ''}`} style={{ backgroundColor: item.color }}></span>
               <span className="text-preset-4" style={ { color: 'var(--grey-500)' } }>{item.label}</span>
               <span className="text-preset-4 bold" style={ { color: 'var(--grey-900)' } }>
