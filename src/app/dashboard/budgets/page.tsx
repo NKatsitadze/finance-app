@@ -10,6 +10,7 @@ import DeleteDialog from '@/components/DesignSystem/DeleteDialog'
 import { fetchUserSubcollection } from '@/lib/firestore'
 import { auth, db } from '@/lib/firebase'
 import { collection, query, where, getDocs, deleteDoc } from 'firebase/firestore'
+import OverlaySpinner from '@/components/OverlayScreenSpinner'
 
 type Budget = {
   id: string;
@@ -31,6 +32,7 @@ export default function BudgetsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [requiredAction, setRequiredAction] = useState('')
   const [targetedBudget, setTargetedBudget] = useState('')
+  const [loading, setLoading] = useState(true)
 
   // Get current user id inside useEffect for safety
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function BudgetsPage() {
         setBudgets([])
         setTransactions([])
       }
+      setLoading(false)
     })
 
     return () => unsubscribe()
@@ -105,6 +108,7 @@ export default function BudgetsPage() {
   }
 
   const deleteHandler = async (budgetName: string) => {
+    setLoading(true)
     const userId = auth.currentUser?.uid
     if (!userId) return
 
@@ -116,6 +120,7 @@ export default function BudgetsPage() {
       await fetchData(userId)
     }
     closeModal()
+    setLoading(false)
   }
 
   // Refetch data AND close modal helper
@@ -143,6 +148,7 @@ export default function BudgetsPage() {
 
   return (
     <>
+      {loading && <OverlaySpinner />}
       {requiredAction && (
         <Modal
           title={

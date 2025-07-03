@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Select from '../DesignSystem/Select'
 import Input from '../DesignSystem/Input'
 import Button from '../DesignSystem/Button'
+import OverlaySpinner from '../OverlayScreenSpinner'
 import { getThemeOptions } from '@/utils/budgets/getAddFormOptions'
 import { useDashboardData } from '@/contexts/DashboardContext'
 import { db, auth } from '@/lib/firebase'
@@ -21,6 +22,7 @@ export default function AddPotForm({ onSubmit }: FormProps) {
   const [targetInputError, setTargetInputError] = useState('')
   const [targetInputState, setTargetInputState] = useState('initial')
   const { pots, refetchData } = useDashboardData()
+  const [loading, setLoading] = useState(false)
 
   const themeOptions = getThemeOptions(pots)
 
@@ -43,6 +45,7 @@ export default function AddPotForm({ onSubmit }: FormProps) {
     }
     if(lessThanZero || emptyName || alreadyExists || notNumber) return
 
+    setLoading(true)
     try {
       const newPot = {
         name: potName,
@@ -57,8 +60,10 @@ export default function AddPotForm({ onSubmit }: FormProps) {
       await refetchData()
       onSubmit()
     } catch (err) {
+      setLoading(false)
       console.error('Failed to add pot:', err)
     }
+    setLoading(false)
   }
 
   const inputPotName = (val:string) => {
@@ -75,6 +80,7 @@ export default function AddPotForm({ onSubmit }: FormProps) {
 
   return (
     <>
+      {loading && <OverlaySpinner/>}
       <p className="text-preset-4 text-grey-500">
         Create a pot to set savings targets. These can help keep you on track as you save for special purchases.
       </p>

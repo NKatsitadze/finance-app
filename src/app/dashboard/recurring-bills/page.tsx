@@ -6,6 +6,7 @@ import IconBills from '@/components/IconComponents/IconBills'
 import RecurringBillsTable from '@/components/recurring-bills/billsTable'
 import { fetchUserSubcollection } from '@/lib/firestore'
 import { auth } from '@/lib/firebase'
+import OverlaySpinner from '@/components/OverlayScreenSpinner'
 
 type Transaction = {
   avatar: string;
@@ -14,18 +15,23 @@ type Transaction = {
   date: string;
   amount: number;
   recurring: boolean;
-};
+}
 
 export default function RecurringBills() {
   const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const user = auth.currentUser
-    if (!user) return
+    if (!user) {
+      setLoading(false)
+      return
+    }
 
     async function loadData() {
       const data = await fetchUserSubcollection(user!.uid, 'transactions')
       setTransactions(data as Transaction[])
+      setLoading(false)
     }
 
     loadData()
@@ -83,6 +89,7 @@ export default function RecurringBills() {
 
   return (
     <>
+      {loading && <OverlaySpinner />}
       <Header title="Recurring Bills" />
 
       <section className="flex gap-6">

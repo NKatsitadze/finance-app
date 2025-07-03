@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Select from '../DesignSystem/Select'
 import Input from '../DesignSystem/Input'
 import Button from '../DesignSystem/Button'
+import OverlaySpinner from '../OverlayScreenSpinner'
 import { getCategoryOptions, getThemeOptions } from '@/utils/budgets/getAddFormOptions'
 import { db, auth } from '@/lib/firebase'
 import { collection, addDoc } from 'firebase/firestore'
@@ -25,6 +26,7 @@ export default function AddBudgetForm({ onSubmit, budgets }: FormProps) {
   const [theme, setTheme] = useState('#277C78')
   const [error, setError] = useState('')
   const [maxInputState, setMaxInputState] = useState('initial')
+  const [loading, setLoading] = useState(false)
 
   const categoryOptions = getCategoryOptions(budgets)
   const themeOptions = getThemeOptions(budgets)
@@ -48,6 +50,7 @@ export default function AddBudgetForm({ onSubmit, budgets }: FormProps) {
       return
     }
 
+    setLoading(true)
     try {
       await addDoc(collection(db, 'users', user.uid, 'budgets'), {
         category,
@@ -57,12 +60,15 @@ export default function AddBudgetForm({ onSubmit, budgets }: FormProps) {
 
       onSubmit()
     } catch (error) {
+      setLoading(false)
       console.error('Failed to add budget:', error)
     }
+    setLoading(false)
   }
 
   return (
     <>
+      {loading && <OverlaySpinner/>}
       <p className="text-preset-4 text-grey-500">
         Choose a category to set a spending budget. These categories can help you monitor spending.
       </p>

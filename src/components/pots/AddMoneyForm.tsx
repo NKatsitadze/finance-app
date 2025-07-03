@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Input from '../DesignSystem/Input'
 import Button from '../DesignSystem/Button'
+import OverlaySpinner from '../OverlayScreenSpinner'
 import { useDashboardData } from '@/contexts/DashboardContext'
 import { db, auth } from '@/lib/firebase'
 import {
@@ -24,6 +25,7 @@ export default function AddMoneyForm({ onSubmit, targetPot }: FormProps) {
   const [amount, setAmount] = useState('')
   const [inputErrorMessage, setInputErrorMessage] = useState('')
   const [inputState, setInputState] = useState('initial')
+  const [loading, setLoading] = useState(false)
   const { refetchData } = useDashboardData()
 
   const amountChangeHandler = (value: string) => {
@@ -81,7 +83,7 @@ const handleAdd = async () => {
       setInputErrorMessage('Cannot add money: insufficient balance.')
       return
     }
-
+    setLoading(true)
     await updateDoc(potDoc.ref, {
       total: currentPotTotal + amountToAdd,
     })
@@ -94,12 +96,15 @@ const handleAdd = async () => {
     await refetchData()
     onSubmit()
   } catch (err) {
+    setLoading(false)
     console.error('Failed to add money to pot:', err)
   }
+  setLoading(false)
 }
 
   return (
     <>
+      {loading && <OverlaySpinner/>}
       <p className="text-preset-4 text-grey-500">
         Add a specific amount to this pot. The amount will be withdrawn from your available balance and allocated to the selected pot.
       </p>

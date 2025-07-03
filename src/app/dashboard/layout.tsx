@@ -18,6 +18,18 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const [checkingAuth, setCheckingAuth] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 689)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -60,12 +72,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return <FullscreenLoader message="Loading dashboard..." />
   }
 
-return (
-  <DashboardProvider userId={userId}>
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      <Page>{children}</Page>
-    </div>
-  </DashboardProvider>
-)
+  return (
+    <DashboardProvider userId={userId}>
+      <div
+        className={`flex h-screen overflow-hidden ${
+          isMobile ? 'flex-col-reverse' : 'flex-row'
+        }`}
+      >
+        <Sidebar isMobile={isMobile} />
+        <Page>{children}</Page>
+      </div>
+    </DashboardProvider>
+  )
 }

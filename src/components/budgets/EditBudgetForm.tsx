@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Select from '../DesignSystem/Select'
 import Input from '../DesignSystem/Input'
 import Button from '../DesignSystem/Button'
+import OverlaySpinner from '../OverlayScreenSpinner'
 import { getCategoryOptions, getThemeOptions } from '@/utils/budgets/getEditFormOptions'
 import { db, auth } from '@/lib/firebase'
 import { doc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore'
@@ -29,6 +30,7 @@ export default function EditBudgetForm({ onSubmit, targetBudget, budgets, spentA
   const [maximum, setMaximum] = useState(targetedBudgetObj?.maximum?.toString() || '')
   const [error, setError] = useState('')
   const [maxInputState, setMaxInputState] = useState('initial')
+  const [loading, setLoading] = useState(false)
 
   const categoryOptions = getCategoryOptions(budgets)
   const themeOptions = getThemeOptions(budgets)
@@ -57,6 +59,7 @@ export default function EditBudgetForm({ onSubmit, targetBudget, budgets, spentA
     const user = auth.currentUser
     if (!user) return
 
+    setLoading(true)
     try {
       const colRef = collection(db, 'users', user.uid, 'budgets')
       const q = query(colRef, where('category', '==', targetBudget))
@@ -73,12 +76,15 @@ export default function EditBudgetForm({ onSubmit, targetBudget, budgets, spentA
 
       onSubmit()
     } catch (err) {
+      setLoading(false)
       console.error('Failed to update budget:', err)
     }
+    setLoading(false)
   }
 
   return (
     <>
+      {loading && <OverlaySpinner/>}
       <p className="text-preset-4 text-grey-500">
         As your budgets change, feel free to update your spending limits.
       </p>

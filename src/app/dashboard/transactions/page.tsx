@@ -8,6 +8,7 @@ import Header from '@/components/Header'
 import Pagination from '@/components/DesignSystem/Pagination'
 import Input from '@/components/DesignSystem/Input'
 import Select from '@/components/DesignSystem/Select'
+import OverlaySpinner from '@/components/OverlayScreenSpinner'
 
 type Transaction = {
   avatar: string;
@@ -91,7 +92,7 @@ export default function TransactionsPage() {
   }, [currentPage, sortedAndFiltered])
 
   if (loading) {
-    return <div className="p-4">Loading transactions...</div>
+    return <OverlaySpinner/>
   }
 
   return (

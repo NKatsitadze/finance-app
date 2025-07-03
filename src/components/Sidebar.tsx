@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './Sidebar.module.css'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -25,10 +25,18 @@ const menuItems = [
   { label: 'Recurring bills', href: '/dashboard/recurring-bills', Icon: IconRecurringBills },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
   const pathname = usePathname()
   const router = useRouter()
   const [isMinimized, setIsMinimized] = useState(false)
+
+  useEffect(() => {
+    if (isMobile) {
+      setIsMinimized(true)
+    } else {
+      setIsMinimized(false)
+    }
+  }, [isMobile])
 
   const handleLogout = async () => {
     await signOut(auth)

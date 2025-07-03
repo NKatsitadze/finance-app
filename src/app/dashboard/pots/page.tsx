@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from '@/components/Header'
 import PotCard from '@/components/pots/PotCard'
 import Modal from '@/components/DesignSystem/Modal'
@@ -20,12 +20,13 @@ import {
   getDoc,
   setDoc
 } from 'firebase/firestore'
-
+import OverlaySpinner from '@/components/OverlayScreenSpinner'
 
 export default function Pots() {
   const { pots, refetchData } = useDashboardData()
   const [requiredAction, setRequiredAction] = useState<ActionKey | ''>('')
   const [targetPot, setTargetPot] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const actionKeys = {
     addPot: 'add-pot',
@@ -47,6 +48,12 @@ export default function Pots() {
   const isMoneyAction = (action: ActionKey): action is 'add-money' | 'withdraw-money' =>
     action === actionKeys.addMoney || action === actionKeys.withdrawMoney
 
+  useEffect(() => {
+    if (pots.length > 0) {
+      setLoading(false)
+    }
+  }, [pots])
+
   const editHandler = (potName: string) => {
     setTargetPot(potName)
     setRequiredAction(actionKeys.editPot)
@@ -57,52 +64,54 @@ export default function Pots() {
     setRequiredAction(actionKeys.deletePot)
   }
 
-const deletePotHandler = async (potName: string) => {
-  const user = auth.currentUser
-  if (!user) return
-
-  try {
-    const potsRef = collection(db, 'users', user.uid, 'pots')
-    const q = query(potsRef, where('name', '==', potName))
-    const snapshot = await getDocs(q)
-
-    if (snapshot.empty) {
-      console.warn(`No pot found with name: ${potName}`)
+  const deletePotHandler = async (potName: string) => {
+    setLoading(true)
+    const user = auth.currentUser
+    if (!user) {
+      setLoading(false)
       return
     }
 
-    const potDoc = snapshot.docs[0]
-    const potData = potDoc.data()
-    const totalToReturn = potData.total ?? 0
+    try {
+      const potsRef = collection(db, 'users', user.uid, 'pots')
+      const q = query(potsRef, where('name', '==', potName))
+      const snapshot = await getDocs(q)
 
-    // Step 2: Fetch user balance
-    const balanceRef = doc(db, 'users', user.uid)
-    const balanceSnap = await getDoc(balanceRef)
+      if (snapshot.empty) {
+        console.warn(`No pot found with name: ${potName}`)
+        setLoading(false)
+        return
+      }
 
-    if (!balanceSnap.exists()) {
-      console.warn('No balance document found for user.')
-      return
+      const potDoc = snapshot.docs[0]
+      const potData = potDoc.data()
+      const totalToReturn = potData.total ?? 0
+
+      const balanceRef = doc(db, 'users', user.uid)
+      const balanceSnap = await getDoc(balanceRef)
+
+      if (!balanceSnap.exists()) {
+        console.warn('No balance document found for user.')
+        setLoading(false)
+        return
+      }
+
+      const balanceData = balanceSnap.data()
+      const updatedBalance = {
+        ...balanceData,
+        current: (balanceData.current ?? 0) + totalToReturn,
+      }
+
+      await setDoc(balanceRef, updatedBalance)
+      await deleteDoc(potDoc.ref)
+
+      closeModal()
+      await refetchData()
+    } catch (error) {
+      console.error('Failed to delete pot and update balance:', error)
     }
-
-    const balanceData = balanceSnap.data()
-    const updatedBalance = {
-      ...balanceData,
-      current: (balanceData.current ?? 0) + totalToReturn,
-    }
-
-    // Step 3: Update balance
-    await setDoc(balanceRef, updatedBalance)
-
-    // Step 4: Delete the pot
-    await deleteDoc(potDoc.ref)
-
-    // Step 5: Close modal and refresh
-    closeModal()
-    await refetchData()
-  } catch (error) {
-    console.error('Failed to delete pot and update balance:', error)
+    setLoading(false)
   }
-}
 
   const closeModal = () => setRequiredAction('')
 
@@ -132,6 +141,7 @@ const deletePotHandler = async (potName: string) => {
 
   return (
     <>
+      {loading && <OverlaySpinner />}
       <Header title="Pots" buttonLabel="+ Add New Pot" onButtonClick={() => setRequiredAction(actionKeys.addPot)} />
 
       {requiredAction && (

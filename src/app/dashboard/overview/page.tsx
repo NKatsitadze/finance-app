@@ -1,4 +1,5 @@
 'use client'
+import { useState, useEffect } from 'react'
 import { useDashboardData } from '@/contexts/DashboardContext'
 import { useRouter, usePathname } from 'next/navigation'
 import Header from '@/components/Header'
@@ -6,12 +7,14 @@ import BalanceCard from '@/components/overviews/BalanceCard'
 import OverviewCard from '@/components/overviews/OverviewCard'
 import IconPotsBig from '@/components/IconComponents/IconPotsBig'
 import BudgetsChart from '@/components/Chart'
+import OverlaySpinner from '@/components/OverlayScreenSpinner'
 import { getRecurringBills } from '@/utils/getRecurringBills'
 import { getBalanceCardDetails } from '@/utils/overview/getBalanceCardDetails'
 import { getRecurringBillsOverview } from '@/utils/overview/getRecurringBillsOverview'
 import { OverviewTransactions } from '@/components/overviews/OverviewTransactions'
 
 export default function Home() {
+  const [showSpinner, setShowSpinner] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
 
@@ -56,11 +59,18 @@ export default function Home() {
     router.push(`${basePath}${url}`)
   }
 
+  useEffect(() => {
+  if (balance.current !== 0) {
+    setShowSpinner(false)
+  }
+}, [balance.current])
+
   return (
     <>
       <Header title="Overview" />
 
       <main className="flex flex-col gap-8" aria-label="Financial overview dashboard">
+        {showSpinner && <OverlaySpinner />}
         {/* Balance Cards */}
         <section
           className="flex gap-6 shrink justify-between"

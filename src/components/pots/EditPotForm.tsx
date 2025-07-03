@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Select from '../DesignSystem/Select'
 import Input from '../DesignSystem/Input'
 import Button from '../DesignSystem/Button'
+import OverlaySpinner from '../OverlayScreenSpinner'
 import { getThemeOptions } from '@/utils/budgets/getAddFormOptions'
 import { useDashboardData } from '@/contexts/DashboardContext'
 import { db, auth } from '@/lib/firebase'
@@ -30,6 +31,7 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
   const [potNameInputState, setPotNameInputState] = useState('initial')
   const [potTargetInputError, setPotTargetInputError] = useState('')
   const [potTargetInputState, setPotTargetInputState] = useState('initial')
+  const [loading, setLoading] = useState(false)
 
   const themeOptions = getThemeOptions(pots) // updated from real pots
 
@@ -79,6 +81,7 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
       return
     }
 
+    setLoading(true)
     try {
       const potsRef = collection(db, 'users', user.uid, 'pots')
       const q = query(potsRef, where('name', '==', targetPot))
@@ -100,12 +103,15 @@ export default function EditPotForm({ onSubmit, targetPot }: FormProps) {
       await refetchData() // refresh UI
       onSubmit()
     } catch (err) {
+      setLoading(false)
       console.error('Failed to update pot:', err)
     }
+    setLoading(false)
   }
 
   return (
     <>
+      {loading && <OverlaySpinner/>}
       <p className="text-preset-4 text-grey-500">
         Choose a name, savings target, and theme for your pot.
       </p>
