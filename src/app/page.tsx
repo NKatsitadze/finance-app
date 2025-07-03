@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
+import FullscreenLoader from '@/components/FullscreenLoader'
 
 export default function Home() {
   const router = useRouter()
@@ -20,5 +21,5 @@ export default function Home() {
     return () => unsubscribe()
   }, [router])
 
-  return 'loading...'
+  return <FullscreenLoader message="Loading Page..."/>
 }

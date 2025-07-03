@@ -9,6 +9,7 @@ import mockData from '@/data.json'
 
 import Sidebar from '@/components/Sidebar'
 import Page from '@/components/Page'
+import FullscreenLoader from '@/components/FullscreenLoader'
 import { DashboardProvider } from '@/contexts/DashboardContext'
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
@@ -55,8 +56,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return () => unsubscribe()
   }, [router])
 
-    if (checkingAuth || !userId) {
-    return <div className="p-4">Checking authentication...</div>
+  if (checkingAuth || !userId) {
+    return <FullscreenLoader message="Loading dashboard..." />
   }
 
 return (
