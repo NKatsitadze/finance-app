@@ -1,7 +1,3 @@
-.sidebar-background {
-    background-color: var(--grey-900);
-}
-
 .sidebar-menu-item {
     color: var(--grey-300);
     display: flex;

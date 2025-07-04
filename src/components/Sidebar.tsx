@@ -25,18 +25,10 @@ const menuItems = [
   { label: 'Recurring bills', href: '/dashboard/recurring-bills', Icon: IconRecurringBills },
 ]
 
-export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
+export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const [isMinimized, setIsMinimized] = useState(false)
-
-  useEffect(() => {
-    if (isMobile) {
-      setIsMinimized(true)
-    } else {
-      setIsMinimized(false)
-    }
-  }, [isMobile])
 
   const handleLogout = async () => {
     await signOut(auth)
@@ -49,18 +41,16 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
 
   return (
     <aside
-      className={`
-        ${styles['sidebar-background']}
-        ${isMinimized ? 'w-20 pr-3' : 'w-60 pr-4'}
-        bg-white shadow pt-10 pb-6 flex flex-col justify-between min-h-screen transition-all duration-300
+      className={`${isMinimized ? 'w-20 pr-3' : 'w-60 pr-4'}
+        sidebar-aside background-grey-900 bg-white shadow pt-10 pb-6 flex flex-col justify-between min-h-screen transition-all duration-300
       `}
     >
-      <div className="h-full flex flex-col">
-        <div className={`mb-6 px-8 pb-10`}>
+      <div className="logo-nav-extra-container h-full flex flex-col">
+        <div className={`none-m mb-6 px-8 pb-10`}>
           {isMinimized ? <IconLogoSmall /> : <IconLogoLarge />}
         </div>
 
-        <nav className="space-y-2">
+        <nav className="nav-container space-y-2">
           {menuItems.map(({ label, href, Icon }) => {
             const isActive = pathname === href
             return (
@@ -78,7 +68,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
                 }
                 className={`
                   ${styles['sidebar-menu-item']}
-                  spacing-6 bold py-3 rounded-r-xl flex items-center gap-4 transition-all duration-200
+                  nav-item spacing-6 bold py-3 rounded-r-xl flex items-center gap-4 transition-all duration-200
                   ${isMinimized ? 'px-4 pl-6' : 'px-8'}
                 `}
               >
@@ -86,15 +76,15 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
 
                 <Icon color={isActive ? 'var(--secondary-green)' : undefined} />
                 </div>
-                <span className='duration-200' style={isMinimized ? { opacity: 0, width: '0px' } : undefined}>{label}</span>
+                <span className='none-m duration-200' style={isMinimized ? { opacity: 0, width: '0px' } : undefined}>{label}</span>
               </Link>
             )
           })}
         </nav>
 
-        <div className={`mt-auto ${!isMinimized ? 'px-8' : 'pl-6'} py-4 flex flex-col gap-4 duration-200`}>
+        <div className={`extra-navs mt-auto ${!isMinimized ? 'px-8' : 'pl-6'} py-4 flex flex-col gap-4 duration-200`}>
           <button
-            className="flex items-center gap-4 pointer"
+            className="none-m flex items-center gap-4 pointer"
             onClick={toggleSidebar}
           >
             <div className={`w-[20px] h-[20px]`}>
@@ -113,7 +103,7 @@ export default function Sidebar({ isMobile }: { isMobile?: boolean }) {
             <div className={`w-[20px] h-[20px]`}>
               <IconLogout />
             </div>
-            <span className="text-preset-3 bold text-grey-300 whitespace-nowrap duration-200" 
+            <span className="none-m text-preset-3 bold text-grey-300 whitespace-nowrap duration-200" 
             style={isMinimized ? { opacity: 0, width: '0px' } : undefined}>
               Logout
             </span>

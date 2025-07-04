@@ -69,11 +69,11 @@ export default function Home() {
     <>
       <Header title="Overview" />
 
-      <main className="flex flex-col gap-8" aria-label="Financial overview dashboard">
+      <main className={`flex flex-col gap-8`} aria-label="Financial overview dashboard">
         {showSpinner && <OverlaySpinner />}
         {/* Balance Cards */}
         <section
-          className="flex gap-6 shrink justify-between"
+          className="flex  gap-6 flex-wrap justify-between"
           aria-label="Balance cards section"
         >
           {balanceCards.map(({ key, ...rest }) => (
@@ -83,7 +83,7 @@ export default function Home() {
 
         {/* Overview Main Grid */}
         <section
-          className="grid grid-cols-[11fr_9fr] gap-6"
+          className="overview-grid grid grid-cols-[11fr_9fr] gap-6"
           aria-label="Detailed overview sections"
         >
           {/* Left Column: Pots + Transactions */}
@@ -96,12 +96,14 @@ export default function Home() {
               details={potsDetails}
             >
               <div
-                className="flex items-center gap-4 rounded-xl p-4"
+                className="overview-pots-box flex items-center gap-4 rounded-xl p-4"
                 style={{ backgroundColor: 'var(--beige-100)' }}
                 role="region"
                 aria-label="Total saved across pots"
               >
-                <IconPotsBig color="var(--secondary-green)" aria-hidden="true" />
+                <div className='shrink-0'>
+                  <IconPotsBig color="var(--secondary-green)" aria-hidden="true" />
+                </div>
                 <div className="flex flex-col gap-3">
                   <span className="text-preset-4" style={{ color: 'var(--grey-500)' }}>
                     Total Saved

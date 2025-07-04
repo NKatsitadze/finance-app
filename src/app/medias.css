@@ -1,0 +1,76 @@
+@media only screen and (max-width: 1024px) {
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar-aside {
+        width: 100%;
+        min-height: 1px !important;
+        height: 60px !important;
+        padding: 8px 40px 0px 40px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .responsive-flex {
+        flex-direction: column-reverse;
+    }
+
+    .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .none-m {
+        display: none;
+    }
+
+    .logo-nav-extra-container {
+        display: flex;
+        align-items: center ;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .extra-navs {
+        display: flex;
+        align-items: center;
+        margin-top: unset;
+        flex-direction: row;
+    }
+
+    .nav-item {
+        margin-bottom: unset !important;
+        border-left: unset !important;
+        border-bottom-right-radius: unset;
+        border-top-left-radius: 8px;
+    }
+
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    .balance-card {
+        max-width: unset;
+    }
+    .page-component {
+        padding: 24px 16px;
+    }
+    
+}
+
+@media only screen and (max-width: 425px) {
+    .overview-card {
+        padding: 24px;
+    }
+    .overview-pots-box {
+        padding: 8px;
+    }
+
+}
+
+@media only screen and (max-width: 375px) {
+ 
+}
