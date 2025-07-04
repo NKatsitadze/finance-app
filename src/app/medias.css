@@ -58,6 +58,15 @@
     .page-component {
         padding: 24px 16px;
     }
+    .nav-item {
+        padding: 8px 24px;
+    }
+    .sidebar-aside {
+        padding: 6px 24px 0px 24px;
+    }
+    .extra-navs {
+        padding: 8px 24px;
+    }
     
 }
 
@@ -68,9 +77,19 @@
     .overview-pots-box {
         padding: 8px;
     }
-
+    .nav-item {
+        padding: 4px 16px;
+    }
+    .sidebar-aside {
+        padding: 4px 12px 0px 12px;
+    }
+    .extra-navs {
+        padding: 4px 16px;
+    }
 }
 
 @media only screen and (max-width: 375px) {
- 
+    .overview-balances {
+        gap: 12px;
+    }
 }

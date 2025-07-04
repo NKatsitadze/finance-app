@@ -111,7 +111,7 @@ export default function TransactionsPage() {
             aria-label="Search transactions"
           />
 
-          <div className="flex items-center justify-end gap-6">
+          <div className="flex items-center justify-end gap-6 ml-6">
             <Select
               label="Sort by"
               labelAside

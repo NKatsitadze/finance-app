@@ -73,7 +73,7 @@ export default function Home() {
         {showSpinner && <OverlaySpinner />}
         {/* Balance Cards */}
         <section
-          className="flex  gap-6 flex-wrap justify-between"
+          className="overview-balances flex  gap-6 flex-wrap justify-between"
           aria-label="Balance cards section"
         >
           {balanceCards.map(({ key, ...rest }) => (
