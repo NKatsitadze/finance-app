@@ -25,6 +25,7 @@ type SelectProps = {
 export default function Select({ label, labelAside, options, fullWidth, selectedValue, iconSelector, type, onChange }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<Option | null>(null)
+  const [dropdownStyles, setDropdownStyles] = useState<React.CSSProperties>({})
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -55,6 +56,57 @@ export default function Select({ label, labelAside, options, fullWidth, selected
     }
   }, [])
 
+  const handleOpen = () => {
+    const rect = wrapperRef.current?.getBoundingClientRect()
+    const DROPDOWN_WIDTH = 240
+    const DROPDOWN_HEIGHT = 300
+
+    if (rect) {
+      const spaceBelow = window.innerHeight - rect.bottom
+      const spaceAbove = rect.top
+      const spaceRight = window.innerWidth - rect.left
+      const spaceLeft = rect.right
+
+      const position: React.CSSProperties = {
+        position: 'absolute',
+        zIndex: 10,
+        maxHeight: DROPDOWN_HEIGHT,
+        minWidth: iconSelector ? 200 : '100%',
+        overflowY: 'auto',
+        backgroundColor: 'white',
+        border: '1px solid var(--grey-100)',
+        borderRadius: '0.75rem',
+        padding: '0.75rem',
+        boxShadow: '0px 4px 24px rgba(0, 0, 0, 0.25)',
+      }
+
+      // Vertical positioning
+      if (spaceBelow >= DROPDOWN_HEIGHT) {
+        position.top = '100%'
+        position.marginTop = '1rem'
+      } else if (spaceAbove >= DROPDOWN_HEIGHT) {
+        position.bottom = '100%'
+        position.marginBottom = '1rem'
+      } else {
+        position.top = '100%'
+        position.marginTop = '1rem'
+        position.maxHeight = Math.max(spaceBelow - 16, 100)
+      }
+
+      // Horizontal adjustments
+      if (spaceRight < DROPDOWN_WIDTH && spaceLeft > DROPDOWN_WIDTH) {
+        position.right = 0
+        position.left = 'auto'
+      } else {
+        position.left = 0
+        position.right = 'auto'
+      }
+
+      setDropdownStyles(position)
+    }
+
+    setIsOpen(!isOpen)
+  }
 
   return (
     <div
@@ -64,12 +116,11 @@ export default function Select({ label, labelAside, options, fullWidth, selected
     >
       {!iconSelector && <span className={`${!labelAside ? styles.label : ''} text-nowrap block text-preset-5 text-grey-500 bold`}>{label}</span>}
       
-      {/* relative wrapper for select box and dropdown */}
       <div className="relative w-[100%]">
         <div
           className={`${styles['select-clean']} pointer spacing-4`}
           style={ iconSelector ? { outline: 'none' } : undefined }
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handleOpen}
         >
           {iconSelector && type === 'sort' && <IconSort/>}
           {iconSelector && type === 'filter' && <IconFilter/>}
@@ -93,8 +144,8 @@ export default function Select({ label, labelAside, options, fullWidth, selected
 
         {isOpen && (
           <div
-            className={`${styles.options} max-h-[300px] overflow-y-auto select-none absolute z-10 mt-4 bg-white border border-gray-200 rounded-xl p-3 `}
-            style={ iconSelector ? { minWidth: '200px' } : undefined }
+            className={`${styles.options} select-none absolute`}
+            style={dropdownStyles}
           >
           {options.map((option, i) => (
             <Fragment key={option.key}>

@@ -86,6 +86,24 @@
     .extra-navs {
         padding: 4px 16px;
     }
+    .transactions-selects {
+        gap: unset;
+        margin-left: 16px;
+    }
+    .transactions-main {
+        padding: 8px;
+    }
+    .transactions-tbh {
+        display: none;
+    }
+    .transaction-item {
+        padding: 8px 0px;
+        grid-template-columns: 2fr 1fr 1fr 0.8fr !important;
+    }
+    .transactions-pagination {
+        margin-top: 0px;
+    }
+
 }
 
 @media only screen and (max-width: 375px) {

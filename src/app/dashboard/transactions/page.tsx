@@ -108,7 +108,7 @@ export default function TransactionsPage() {
     <>
       <Header title="Transactions" />
 
-      <main className="bg-white w-full flex-1 flex flex-col rounded-xl p-8">
+      <main className="transactions-main bg-white w-full flex-1 flex flex-col rounded-xl p-8">
         {/* Filter/Search/Sort Header */}
         <section className="flex items-center justify-between mb-6">
           <Input
@@ -120,7 +120,7 @@ export default function TransactionsPage() {
             aria-label="Search transactions"
           />
 
-          <div className="flex items-center justify-end gap-6 ml-6">
+          <div className="transactions-selects flex items-center justify-end gap-6 ml-6">
             <Select
               label="Sort by"
               labelAside
@@ -164,7 +164,7 @@ export default function TransactionsPage() {
         {/* Transactions Table */}
         <section>
           <table className="w-full text-sm">
-            <thead className="text-preset-5 border-b py-6 px-4" style={{ color: 'var(--grey-500)', borderColor: 'var(--grey-100)' }}>
+            <thead className="transactions-tbh text-preset-5 border-b py-6 px-4" style={{ color: 'var(--grey-500)', borderColor: 'var(--grey-100)' }}>
               <tr className="grid px-4 py-2" style={{ gridTemplateColumns: '2fr 0.8fr 0.8fr 1.2fr' }}>
                 <th className="text-left">Recipient / Sender</th>
                 <th className="text-left">Category</th>
@@ -174,11 +174,11 @@ export default function TransactionsPage() {
             </thead>
             <tbody>
               {paginatedTransactions.map(({ avatar, name, category, date, amount }, index) => (
-                <tr
+            <tr
                   key={index}
-                  className="grid items-center py-4 px-4 border-b border-gray-100"
+                  className="transaction-item grid items-center py-4 px-4 border-b border-gray-100"
                   style={{ gridTemplateColumns: '2fr 0.8fr 0.8fr 1.2fr' }}
-                >
+>
                   <td className="flex items-center gap-3">
                     <img src={avatar} alt={name} className="w-[40px] h-[40px] rounded-full" />
                     <span className="text-gray-900">{name}</span>
@@ -201,7 +201,7 @@ export default function TransactionsPage() {
         </section>
 
         {/* Pagination */}
-        <div className="mt-6">
+        <div className="transactions-pagination mt-6">
           <Pagination
             totalPages={Math.ceil(sortedAndFiltered.length / transactionsPerPage)}
             currentPage={currentPage}
