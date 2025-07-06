@@ -82,7 +82,7 @@ export default function BudgetsPage() {
         color: budget.theme,
         amount: totalAmount,
       }
-    }).slice(0,4)
+    })
   }, [budgets, transactions, currentMonth, currentYear])
 
   const budgetsChartDetails = budgetDetails.map((b) => ({
@@ -186,7 +186,7 @@ export default function BudgetsPage() {
       />
 
       <article className="budgets-article w-full flex gap-6 rounded-xl">
-        <div className="budgets-summary basis-[40%] h-fit bg-white rounded-xl p-8 flex flex-col gap-8 sticky top-0">
+        <div className="budgets-summary basis-[40%] h-fit bg-white rounded-xl p-8 flex flex-col gap-8 sticky top-0 max-h-[85vh] overflow-y-auto">
           <Chart data={budgetsChartDetails} colors={budgetsChartColors} />
 
           <div className="flex flex-col gap-6">
