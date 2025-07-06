@@ -69,7 +69,7 @@ export default function Home() {
     <>
       <Header title="Overview" />
 
-      <main className={`flex flex-col gap-8`} aria-label="Financial overview dashboard">
+      <main className={'flex flex-col gap-8'} aria-label="Financial overview dashboard">
         {showSpinner && <OverlaySpinner />}
         {/* Balance Cards */}
         <section

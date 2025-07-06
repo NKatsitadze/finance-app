@@ -46,7 +46,7 @@ export default function Sidebar() {
       `}
     >
       <div className="logo-nav-extra-container h-full flex flex-col">
-        <div className={`none-m mb-6 px-8 pb-10`}>
+        <div className={'none-m mb-6 px-8 pb-10'}>
           {isMinimized ? <IconLogoSmall /> : <IconLogoLarge />}
         </div>
 
@@ -87,7 +87,7 @@ export default function Sidebar() {
             className="none-m flex items-center gap-4 pointer"
             onClick={toggleSidebar}
           >
-            <div className={`w-[20px] h-[20px]`}>
+            <div className={'w-[20px] h-[20px]'}>
               <IconMinimize />
             </div>
             <span className="text-preset-3 bold text-grey-300 whitespace-nowrap duration-200" 
@@ -100,7 +100,7 @@ export default function Sidebar() {
             className="flex items-center gap-4 pointer"
             onClick={handleLogout}
           >
-            <div className={`w-[20px] h-[20px]`}>
+            <div className={'w-[20px] h-[20px]'}>
               <IconLogout />
             </div>
             <span className="none-m text-preset-3 bold text-grey-300 whitespace-nowrap duration-200" 

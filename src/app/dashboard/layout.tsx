@@ -63,7 +63,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <DashboardProvider userId={userId}>
       <div
-        className={`responsive-flex flex h-screen overflow-hidden flex-row`}
+        className={'responsive-flex flex h-screen overflow-hidden flex-row'}
       >
         <Sidebar />
         <Page>{children}</Page>
