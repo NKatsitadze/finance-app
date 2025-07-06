@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Input from '@/components/DesignSystem/Input'
 import Select from '@/components/DesignSystem/Select'
 
@@ -18,6 +18,7 @@ type Props = {
 };
 
 export default function RecurringBillsRight({ transactions }: Props) {
+  const [isTabletOrMobile, setIsTabletOrMobile] = useState(false)
   const now = new Date()
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
   const fiveDaysLater = new Date(now)
@@ -25,6 +26,16 @@ export default function RecurringBillsRight({ transactions }: Props) {
 
   const [sortBy, setSortBy] = useState('latest')
   const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    function handleResize() {
+      setIsTabletOrMobile(window.innerWidth < 689)
+    }
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const recurringTransactions = useMemo(() => {
     let filtered = [...transactions]
@@ -69,9 +80,9 @@ export default function RecurringBillsRight({ transactions }: Props) {
   }
 
   return (
-    <div className="bg-white flex flex-col gap-6 p-8 rounded-xl">
+    <div className="bill-table-article bg-white flex flex-col gap-6 p-8 rounded-xl">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex gap-4 justify-between items-center">
         <Input
           placeholder="Search recurring bills"
           value={searchQuery}
@@ -88,6 +99,8 @@ export default function RecurringBillsRight({ transactions }: Props) {
             { label: 'Highest', value: 'highest', key: Math.random() },
             { label: 'Lowest', value: 'lowest', key: Math.random() },
           ]}
+          iconSelector={isTabletOrMobile}
+          type='sort'
           onChange={setSortBy}
         />
       </div>
@@ -107,7 +120,7 @@ export default function RecurringBillsRight({ transactions }: Props) {
       </div>
 
       {/* Transactions */}
-      <ul className="divide-y divide-grey-100">
+      <ul className="divide-y divide-gray-100">
         {recurringTransactions.map((tx, index) => {
           const color = getDateColor(tx.date)
           const date = new Date(tx.date).toLocaleDateString('en-GB', {
@@ -119,7 +132,7 @@ export default function RecurringBillsRight({ transactions }: Props) {
           return (
             <li
               key={index}
-              className="grid items-center px-4 py-4 text-sm"
+              className="bills-table-item grid items-center px-4 py-4 text-sm"
               style={{ gridTemplateColumns: '2fr 1fr 1fr' }}
             >
               {/* Bill Title */}

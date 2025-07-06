@@ -92,12 +92,12 @@ export default function RecurringBills() {
       {loading && <OverlaySpinner />}
       <Header title="Recurring Bills" />
 
-      <section className="flex gap-6">
+      <section className="recurring-bills-section-main flex gap-6">
         {/* LEFT SIDE */}
-        <div className="basis-[40%] flex flex-col gap-6">
+        <div className="recurring-bills-left basis-[40%] flex flex-col gap-6">
           {/* Total Bills Card */}
           <div
-            className="bg-white rounded-xl p-6 shadow-sm flex flex-col gap-8"
+            className="recurring-bills-left-total bg-white rounded-xl p-6 shadow-sm flex flex-col gap-8"
             style={{ backgroundColor: 'var(--grey-900)' }}
           >
             <IconBills color="var(--white)" />
@@ -108,7 +108,7 @@ export default function RecurringBills() {
           </div>
 
           {/* Summary Card */}
-          <div className="text-preset-5 bg-white rounded-xl p-6 shadow-sm flex flex-col">
+          <div className="recurring-bills-left-summary text-preset-5 bg-white rounded-xl p-6 shadow-sm flex flex-col">
             <h3 className="text-preset-3 bold text-grey-900 pb-5">Summary</h3>
 
             {summaryCardDetails.map((item, idx, arr) => (
@@ -131,7 +131,7 @@ export default function RecurringBills() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="basis-[60%] flex flex-col gap-4">
+        <div className="recurring-bills-right basis-[60%] flex flex-col gap-4">
           <RecurringBillsTable transactions={recurringTransactions} />
         </div>
       </section>

@@ -111,7 +111,7 @@ export default function Select({ label, labelAside, options, fullWidth, selected
   return (
     <div
       ref={wrapperRef}
-      className={`${styles.wrapper} text-preset-4 ${labelAside ? 'flex items-center gap-2' : ''}`}
+      className={`${!iconSelector ? styles.wrapper : undefined} text-preset-4 ${labelAside ? 'flex items-center gap-2' : ''}`}
       style={{ maxWidth: fullWidth ? '100%' : '20rem' }}
     >
       {!iconSelector && <span className={`${!labelAside ? styles.label : ''} text-nowrap block text-preset-5 text-grey-500 bold`}>{label}</span>}

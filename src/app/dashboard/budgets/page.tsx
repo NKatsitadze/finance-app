@@ -82,7 +82,7 @@ export default function BudgetsPage() {
         color: budget.theme,
         amount: totalAmount,
       }
-    })
+    }).slice(0,4)
   }, [budgets, transactions, currentMonth, currentYear])
 
   const budgetsChartDetails = budgetDetails.map((b) => ({
@@ -185,8 +185,8 @@ export default function BudgetsPage() {
         onButtonClick={() => setRequiredAction('add-budget')}
       />
 
-      <article className="w-full flex gap-6 rounded-xl">
-        <div className="basis-[40%] h-fit bg-white rounded-xl p-8 flex flex-col gap-8 sticky top-0">
+      <article className="budgets-article w-full flex gap-6 rounded-xl">
+        <div className="budgets-summary basis-[40%] h-fit bg-white rounded-xl p-8 flex flex-col gap-8 sticky top-0">
           <Chart data={budgetsChartDetails} colors={budgetsChartColors} />
 
           <div className="flex flex-col gap-6">
@@ -197,7 +197,7 @@ export default function BudgetsPage() {
             <div>
               {budgetDetails.map((item, index) => (
                 <div key={item.key}>
-                  <div className="flex justify-between relative pl-4 rounded-xl">
+                  <div className="flex justify-between relative pl-4 rounded-xl items-center">
                     <span
                       className="absolute w-[4px] rounded-xl h-full top-0 left-0"
                       style={{ backgroundColor: item.color }}
@@ -226,7 +226,7 @@ export default function BudgetsPage() {
           </div>
         </div>
 
-        <div className="basis-[60%] flex flex-col gap-6">
+        <div className="budgets-details basis-[60%] flex flex-col gap-6">
           <div className="grid gap-6">
             {budgetDetails.map((item) => (
               <BudgetCard

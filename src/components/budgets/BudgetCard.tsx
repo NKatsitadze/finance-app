@@ -41,7 +41,7 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
   }
 
   return (
-    <div className="bg-white rounded-xl p-8 flex flex-col gap-5">
+    <div className="budget-card-component bg-white rounded-xl p-8 flex flex-col gap-5">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
       </div>
 
       {/* Latest Spending Card */}
-      <div className="rounded-xl px-5 py-3 flex flex-col gap-5" style={{backgroundColor: 'var(--beige-100)'}}>
+      <div className="budget-card-grey-details rounded-xl px-5 py-3 flex flex-col gap-5" style={{backgroundColor: 'var(--beige-100)'}}>
         <div className="flex justify-between items-center">
           <span className="text-preset-3 bold text-grey-900">Latest Spending</span>
           <Button type='tertiary' onButtonClick={() => onButtonClick(category)} label="See all"/>
@@ -87,7 +87,7 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
 
         <ul className="divide-y divide-gray-200">
             {latestTransactions.map((tx, index) => (
-            <li key={index} className="flex justify-between items-center p-[12px]">
+            <li key={index} className="budget-card-detail-item flex justify-between items-center p-[12px]">
                 <div className="flex items-center gap-4">
                 <img src={tx.avatar} alt={tx.name} className="w-[32px] h-[32px] rounded-full" />
                 <span className="text-grey-900 bold text-preset-5">{tx.name}</span>

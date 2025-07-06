@@ -67,7 +67,30 @@
     .extra-navs {
         padding: 8px 24px;
     }
-    
+    .budgets-article {
+        flex-direction: column;
+    }
+    .budgets-summary {
+        display: grid;
+        padding: 16px;
+        gap: 12px;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        position: unset;
+    }
+    .budget-card-component {
+        padding: 16px;
+    }
+    .recurring-bills-section-main {
+        flex-direction: column;
+    }
+    .recurring-bills-left {
+        flex-direction: row;
+    }
+    .recurring-bills-left-total,
+    .recurring-bills-left-summary {
+        flex: 1;
+    }
 }
 
 @media only screen and (max-width: 425px) {
@@ -102,6 +125,28 @@
     }
     .transactions-pagination {
         margin-top: 0px;
+    }
+    .budget-card-component {
+        padding: 12px;
+    }
+    .budgets-summary {
+        grid-template-columns: 1fr;
+    }
+    .budget-card-grey-details {
+        padding: 8px 16px;
+        gap: 12px;
+    }
+    .budget-card-detail-item {
+        padding: 8px;
+    }
+     .recurring-bills-left {
+        flex-direction: column;
+    }
+    .bill-table-article {
+        padding: 12px;
+    }
+    .bills-table-item {
+        padding: 8px;
     }
 
 }
