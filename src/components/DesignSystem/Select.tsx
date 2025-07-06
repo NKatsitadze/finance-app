@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, Fragment } from 'react'
 import styles from './Select.module.css'
 import IconSelected from '../IconComponents/IconSelected'
+import IconFilter from '../IconComponents/IconFilter'
+import IconSort from '../IconComponents/IconSort'
 
 type Option = {
   label: string;
@@ -15,10 +17,12 @@ type SelectProps = {
   options: Option[];
   fullWidth?: boolean;
   selectedValue?: string;
+  iconSelector?: boolean;
+  type?: string;
   onChange: (value: string) => void;
 };
 
-export default function Select({ label, labelAside, options, fullWidth, selectedValue, onChange }: SelectProps) {
+export default function Select({ label, labelAside, options, fullWidth, selectedValue, iconSelector, type, onChange }: SelectProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<Option | null>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -58,32 +62,39 @@ export default function Select({ label, labelAside, options, fullWidth, selected
       className={`${styles.wrapper} text-preset-4 ${labelAside ? 'flex items-center gap-2' : ''}`}
       style={{ maxWidth: fullWidth ? '100%' : '20rem' }}
     >
-      <span className={`${!labelAside ? styles.label : ''} text-nowrap block text-preset-5 text-grey-500 bold`}>{label}</span>
+      {!iconSelector && <span className={`${!labelAside ? styles.label : ''} text-nowrap block text-preset-5 text-grey-500 bold`}>{label}</span>}
       
       {/* relative wrapper for select box and dropdown */}
       <div className="relative w-[100%]">
         <div
           className={`${styles['select-clean']} pointer spacing-4`}
+          style={ iconSelector ? { outline: 'none' } : undefined }
           onClick={() => setIsOpen(!isOpen)}
         >
-          <div className="flex items-center gap-2 select-none text-nowrap">
-            {selected?.icon}
-            <span className={`${selected ? 'text-grey-900' : ''}`}>{selected?.label || 'Select an option'}</span>
-          </div>
-          <svg
-            className="w-4 h-4 transform transition-transform duration-200"
-            style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+          {iconSelector && type === 'sort' && <IconSort/>}
+          {iconSelector && type === 'filter' && <IconFilter/>}
+
+          {!iconSelector && <>
+            <div className="flex items-center gap-2 select-none text-nowrap">
+              {selected?.icon}
+              <span className={`${selected ? 'text-grey-900' : ''}`}>{selected?.label || 'Select an option'}</span>
+            </div>
+            <svg
+              className="w-4 h-4 transform transition-transform duration-200"
+              style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0)' }}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              >
+              <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </>}
         </div>
 
         {isOpen && (
           <div
             className={`${styles.options} max-h-[300px] overflow-y-auto select-none absolute z-10 mt-4 bg-white border border-gray-200 rounded-xl p-3 `}
+            style={ iconSelector ? { minWidth: '200px' } : undefined }
           >
           {options.map((option, i) => (
             <Fragment key={option.key}>

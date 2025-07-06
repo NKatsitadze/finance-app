@@ -19,7 +19,6 @@ type Transaction = {
 };
 
 export default function TransactionsPage() {
-  const [userId, setUserId] = useState<string | null>(null)
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -27,13 +26,23 @@ export default function TransactionsPage() {
   const [sortBy, setSortBy] = useState('latest')
   const [categoryFilter, setCategoryFilter] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [isTabletOrMobile, setIsTabletOrMobile] = useState(false)
 
   const transactionsPerPage = 10
 
   useEffect(() => {
+    function handleResize() {
+      setIsTabletOrMobile(window.innerWidth < 689)
+    }
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setUserId(user.uid)
         const data = await fetchUserSubcollection(user.uid, 'transactions')
         setTransactions(data as Transaction[])
         setLoading(false)
@@ -123,6 +132,8 @@ export default function TransactionsPage() {
                 { label: 'Highest', value: 'high', key: 'high' },
                 { label: 'Lowest', value: 'low', key: 'low' },
               ]}
+              type='sort'
+              iconSelector={isTabletOrMobile}
               onChange={(v) => {
                 setSortBy(v)
                 setCurrentPage(1)
@@ -140,6 +151,8 @@ export default function TransactionsPage() {
                   key: cat,
                 })),
               ]}
+              type='filter'
+              iconSelector={isTabletOrMobile}
               onChange={(v) => {
                 setCategoryFilter(v)
                 setCurrentPage(1)
