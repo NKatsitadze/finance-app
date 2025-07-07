@@ -51,8 +51,8 @@ export default function BudgetsPage() {
 
   const fetchData = async (userId: string) => {
     const [budgetsData, transactionsData] = await Promise.all([
-      fetchUserSubcollection(userId, 'budgets'),
-      fetchUserSubcollection(userId, 'transactions'),
+      fetchUserSubcollection<Budget>(userId, 'budgets'),
+      fetchUserSubcollection<Transaction>(userId, 'transactions'),
     ])
     setBudgets(budgetsData)
     setTransactions(transactionsData)
