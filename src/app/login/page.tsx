@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signInWithPopup } from 'firebase/auth'
 import { auth, provider } from '@/lib/firebase'
@@ -16,8 +16,12 @@ export default function LoginPage() {
     try {
       await signInWithPopup(auth, provider)
       router.replace('/dashboard/overview')
-    } catch (err: any) {
-      setError(err.message || 'Google sign-in failed')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError('Google sign-in failed')
+      }
     }
   }
 

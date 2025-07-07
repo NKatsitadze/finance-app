@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { Dropdown } from '../DesignSystem/Dropdown'
 import Button from '../DesignSystem/Button'
 
@@ -27,6 +28,7 @@ type BudgetCardProps = {
 };
 
 export default function BudgetCard({ category, color, maximum, amount, transactions, dropdownOptions }: BudgetCardProps) {
+  const router = useRouter()
   const remaining = maximum - amount
   const progress = Math.min((amount / maximum) * 100, 100)
 
@@ -37,8 +39,7 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
       .slice(0, 3)
   }, [transactions, category])
 
-  const onButtonClick = (e: string) => {
-  }
+  const onButtonClick = () => router.replace('/dashboard/transactions')
 
   return (
     <div className="budget-card-component bg-white rounded-xl p-8 flex flex-col gap-5">
@@ -82,7 +83,7 @@ export default function BudgetCard({ category, color, maximum, amount, transacti
       <div className="budget-card-grey-details rounded-xl px-5 py-3 flex flex-col gap-5" style={{backgroundColor: 'var(--beige-100)'}}>
         <div className="flex justify-between items-center">
           <span className="text-preset-3 bold text-grey-900">Latest Spending</span>
-          <Button type='tertiary' onButtonClick={() => onButtonClick(category)} label="See all"/>
+          <Button type='tertiary' onButtonClick={() => onButtonClick()} label="See all"/>
         </div>
 
         <ul className="divide-y divide-gray-200">

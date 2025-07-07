@@ -16,11 +16,14 @@ export async function fetchUserDocument(userId: string): Promise<BalanceWithId |
   return snapshot.exists() ? { id: snapshot.id, ...(snapshot.data() as Balance) } : null
 }
 
-export async function fetchUserSubcollection<T = any>(
+export async function fetchUserSubcollection<T extends object>(
   userId: string,
   subcollection: string
 ): Promise<(T & { id: string })[]> {
   const ref = collection(db, 'users', userId, subcollection)
   const snapshot = await getDocs(ref)
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as (T & { id: string })[]
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data() as T
+  }))
 }

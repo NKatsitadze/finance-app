@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Select from '../DesignSystem/Select'
 import Input from '../DesignSystem/Input'
 import Button from '../DesignSystem/Button'
 import OverlaySpinner from '../OverlayScreenSpinner'
 import { getCategoryOptions, getThemeOptions } from '@/utils/budgets/getEditFormOptions'
 import { db, auth } from '@/lib/firebase'
-import { doc, updateDoc, collection, query, where, getDocs } from 'firebase/firestore'
+import { updateDoc, collection, query, where, getDocs } from 'firebase/firestore'
 
 type Budget = {
   id: string;

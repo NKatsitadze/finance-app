@@ -20,7 +20,6 @@ type Props = {
 export default function RecurringBillsRight({ transactions }: Props) {
   const [isTabletOrMobile, setIsTabletOrMobile] = useState(false)
   const now = new Date()
-  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
   const fiveDaysLater = new Date(now)
   fiveDaysLater.setDate(now.getDate() + 5)
 

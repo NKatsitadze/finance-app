@@ -7,7 +7,7 @@ import IconSort from '../IconComponents/IconSort'
 type Option = {
   label: string;
   value: string;
-  icon?: any;
+  icon?: string;
   key: string | number;
 };
 

@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         if (!userSnap.exists()) {
           await setDoc(userRef, balance)
 
-          const seedCollection = async (name: string, data: any[]) => {
+          const seedCollection = async <T extends object>(name: string, data: T[]) => {
             const colRef = collection(userRef, name)
             for (const docData of data) {
               await addDoc(colRef, docData)
