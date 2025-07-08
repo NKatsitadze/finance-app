@@ -26,7 +26,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex h-screen overflow-hidden background-beige-100 p-4 gap-10" aria-label="Login page">
+    <main className="flex h-svh overflow-hidden background-beige-100 p-4 gap-10" aria-label="Login page">
 
       <aside className="hidden overflow-hidden items-center flex md:block md:w-2/5 rounded-xl relative" aria-hidden="true">
         <img
