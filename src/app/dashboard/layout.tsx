@@ -18,14 +18,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const [checkingAuth, setCheckingAuth] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
+  const [loadingMessage, setLoadingMessage] = useState('Loading dashboard...')
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setLoadingMessage('This is taking longer than usual...')
+    }, 7000)
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
+        clearTimeout(timeout)
         router.replace('/login')
       } else {
         const userRef = doc(db, 'users', user.uid)
@@ -48,23 +54,25 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           ])
         }
 
+        clearTimeout(timeout)
         setUserId(user.uid)
         setCheckingAuth(false)
       }
     })
 
-    return () => unsubscribe()
+    return () => {
+      clearTimeout(timeout)
+      unsubscribe()
+    }
   }, [router])
 
   if (checkingAuth || !userId) {
-    return <FullscreenLoader message="Loading dashboard..." />
+    return <FullscreenLoader message={loadingMessage} />
   }
 
   return (
     <DashboardProvider userId={userId}>
-      <div
-        className={'responsive-flex flex h-svh overflow-hidden flex-row'}
-      >
+      <div className={'responsive-flex flex h-svh overflow-hidden flex-row'}>
         <Sidebar />
         <Page>{children}</Page>
       </div>
