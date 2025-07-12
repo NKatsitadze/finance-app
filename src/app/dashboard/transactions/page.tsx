@@ -164,8 +164,8 @@ export default function TransactionsPage() {
         {/* Transactions Table */}
         <section>
           <table className="w-full text-sm">
-            <thead className="transactions-tbh text-preset-5 border-b py-6 px-4" style={{ color: 'var(--grey-500)', borderColor: 'var(--grey-100)' }}>
-              <tr className="grid px-4 py-2" style={{ gridTemplateColumns: '2fr 0.8fr 0.8fr 1.2fr' }}>
+            <thead className="sm:block hidden text-preset-5 border-b py-6 px-4" style={{ color: 'var(--grey-500)', borderColor: 'var(--grey-100)' }}>
+              <tr className="grid py-2" style={{ gridTemplateColumns: '2fr 0.8fr 0.8fr 1.2fr' }}>
                 <th className="text-left">Recipient / Sender</th>
                 <th className="text-left">Category</th>
                 <th className="text-left">Date</th>
