@@ -176,24 +176,39 @@ export default function TransactionsPage() {
               {paginatedTransactions.map(({ avatar, name, category, date, amount }, index) => (
             <tr
                   key={index}
-                  className="transaction-item grid items-center py-4 px-4 border-b border-gray-100"
-                  style={{ gridTemplateColumns: '2fr 0.8fr 0.8fr 1.2fr' }}
+                  className="transaction-item grid items-center py-4 px-4 border-b border-gray-100 grid-cols-[1fr_1fr] sm:grid-cols-[2fr_0.8fr_0.8fr_1.2fr]"
 >
                   <td className="flex items-center gap-3">
                     <img src={avatar} alt={name} className="w-[40px] h-[40px] rounded-full" />
-                    <span className="text-gray-900">{name}</span>
+                    <span className="sm:block hidden text-gray-900">{name}</span>
+                    <div className='sm:hidden block flex flex-col'>
+                      <span className="text-gray-900 bold">{name}</span>
+                      <span className="text-gray-700 truncate">{category}</span>
+                    </div>
                   </td>
-                  <td className="text-gray-700 truncate">{category}</td>
-                  <td className="text-gray-500">
+                  <td className="sm:block hidden text-gray-700 truncate">{category}</td>
+                  <td className="sm:block hidden text-gray-500">
                     {new Date(date).toLocaleDateString('en-GB', {
                       day: '2-digit',
                       month: 'short',
                       year: 'numeric',
                     })}
                   </td>
-                  <td className={`text-right font-semibold ${amount > 0 ? 'text-green-600' : 'text-gray-800'}`}>
+                  <td className={`sm:block hidden text-right font-semibold ${amount > 0 ? 'text-green-600' : 'text-gray-800'}`}>
                     {amount >= 0 ? `+$${amount}` : `-$${Math.abs(amount)}`}
                   </td>
+                  <div className='sm:hidden block flex flex-col text-right'>
+                    <span className="text-gray-500">
+                      {new Date(date).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </span>
+                    <span className={`font-semibold ${amount > 0 ? 'text-green-600' : 'text-gray-800'}`}>
+                      {amount >= 0 ? `+$${amount}` : `-$${Math.abs(amount)}`}
+                    </span>
+                  </div>
                 </tr>
               ))}
             </tbody>

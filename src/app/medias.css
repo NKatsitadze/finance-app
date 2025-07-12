@@ -121,7 +121,6 @@
     }
     .transaction-item {
         padding: 8px 0px;
-        grid-template-columns: 2fr 1fr 1fr 0.8fr !important;
     }
     .transactions-pagination {
         margin-top: 0px;
