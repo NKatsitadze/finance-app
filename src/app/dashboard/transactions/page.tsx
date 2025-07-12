@@ -197,7 +197,7 @@ export default function TransactionsPage() {
                   <td className={`sm:block hidden text-right font-semibold ${amount > 0 ? 'text-green-600' : 'text-gray-800'}`}>
                     {amount >= 0 ? `+$${amount}` : `-$${Math.abs(amount)}`}
                   </td>
-                  <div className='sm:hidden block flex flex-col text-right'>
+                  <td className='sm:hidden block flex flex-col text-right'>
                     <span className="text-gray-500">
                       {new Date(date).toLocaleDateString('en-GB', {
                         day: '2-digit',
@@ -208,7 +208,7 @@ export default function TransactionsPage() {
                     <span className={`font-semibold ${amount > 0 ? 'text-green-600' : 'text-gray-800'}`}>
                       {amount >= 0 ? `+$${amount}` : `-$${Math.abs(amount)}`}
                     </span>
-                  </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
